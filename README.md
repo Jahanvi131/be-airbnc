@@ -12,7 +12,7 @@
 
 ## Project setup
 
-1. In root directory [package.json] file have a all dependencies on which project is relay on so run `npm install` in the root of repo to install the necessary dependencies.
+1. In root directory [package.json] file have a all dependencies on which project is rely on so run `npm install` in the root of repo to install the necessary dependencies.
 
 2. Create a `.env.test` file at the root level with the following content:
 
