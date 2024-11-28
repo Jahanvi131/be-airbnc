@@ -18,12 +18,10 @@ const manageTables = async () => {
     await db.query(dropReviews);
     await db.query(dropFavourites);
     await db.query(dropProperties);
-    await db.query(dropUsers);
-    await db.query(dropPropertyTypes);
+    await Promise.all([db.query(dropUsers), db.query(dropPropertyTypes)]);
 
     // create tables
-    await db.query(createPropertyTypes);
-    await db.query(createUsers);
+    await Promise.all([db.query(createPropertyTypes), db.query(createUsers)]);
     await db.query(createProperties);
     await db.query(createFavourites);
     await db.query(createReviews);
