@@ -6,6 +6,7 @@ const {
   formatUsers,
   formatProperties,
   combineNames,
+  formatData,
   formatDatas,
   formatFavourites,
   formatReviews,
@@ -33,10 +34,10 @@ exports.seedProperties = async (properties, users) => {
   const newUsers = combineNames(users);
   const usersRef = createRef("host_name", "user_id", newUsers);
 
-  const propertiesData = formatDatas(
-    [usersRef],
-    ["host_name"],
-    ["host_id"],
+  const propertiesData = formatData(
+    usersRef,
+    "host_name",
+    "host_id",
     properties
   );
   return db.query(

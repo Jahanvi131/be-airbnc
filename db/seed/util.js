@@ -5,6 +5,15 @@ exports.createRef = (key, value, data) => {
   }, {});
 };
 
+exports.formatData = (refObj, keyToRemove, keyToAdd, rawData) => {
+  return rawData.map(({ [keyToRemove]: removedKey, ...row }) => {
+    return {
+      ...row,
+      [keyToAdd]: refObj[[removedKey]] || null, // Add new key
+    };
+  });
+};
+
 exports.formatDatas = (refObjs, keysToRemove, keysToAdd, rawData) => {
   return rawData.map((row) => {
     return keysToRemove.reduce(
@@ -16,12 +25,12 @@ exports.formatDatas = (refObjs, keysToRemove, keysToAdd, rawData) => {
           const { [keyToRemove]: removedKey, ...rest } = updatedRow;
           return {
             ...rest,
-            [keyToAdd]: refObj[updatedRow[keyToRemove]] || null, // Add new key
+            [keyToAdd]: refObj[[removedKey]] || null, // Add new key
           };
         }
       },
       { ...row }
-    ); // Start with a copy of the row
+    );
   });
 };
 

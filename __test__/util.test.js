@@ -1,4 +1,4 @@
-const { createRef, formatDatas } = require("../db/seed/util");
+const { createRef, formatData, formatDatas } = require("../db/seed/util");
 
 describe("createRef", () => {
   test("Returns object", () => {
@@ -48,6 +48,55 @@ describe("createRef", () => {
   });
 });
 
+describe("formatData", () => {
+  test("Return array of objects", () => {
+    const refObj = { jahanvi: 1 };
+    const rawData = [{ host_name: "jahanvi" }];
+
+    const data = formatData(refObj, "host_name", "host_id", rawData);
+
+    expect(Array.isArray(data)).toBe(true);
+    data.forEach((d) => {
+      expect(typeof d).toBe("object");
+    });
+  });
+  test("return array of objects should not have removed key", () => {
+    const refObj = { jahanvi: 1 };
+    const rawData = [{ host_name: "jahanvi" }];
+    const removedKey = "host_name";
+    const addKey = "host_id";
+
+    const data = formatData(refObj, removedKey, addKey, rawData);
+
+    expect(data.length).toBeGreaterThan(0);
+    data.forEach((d) => {
+      expect(d).not.toHaveProperty("host_name");
+    });
+  });
+  test("return array of objects should have new key", () => {
+    const refObj = { jahanvi: 1 };
+    const rawData = [{ host_name: "jahanvi" }];
+    const removedKey = "host_name";
+    const addKey = "host_id";
+
+    const data = formatData(refObj, removedKey, addKey, rawData);
+    expect(data.length).toBeGreaterThan(0);
+    data.forEach((d) => {
+      expect(d).toHaveProperty("host_id", 1);
+    });
+  });
+  test("should not mutate original array", () => {
+    const refObj = { jahanvi: 1 };
+    const rawData = [{ host_name: "jahanvi" }];
+    const removedKey = "host_name";
+    const addKey = "host_id";
+
+    formatData(refObj, removedKey, addKey, rawData);
+
+    expect(rawData).toEqual([{ host_name: "jahanvi" }]);
+  });
+});
+
 describe("formatDatas", () => {
   test("Return array of objects", () => {
     const refObjs = [{ jahanvi: 1 }];
@@ -60,7 +109,7 @@ describe("formatDatas", () => {
       expect(typeof d).toBe("object");
     });
   });
-  test("return array of object should not have removed key", () => {
+  test("return array of objects should not have removed key", () => {
     const refObjs = [{ jahanvi: 1 }];
     const rawData = [{ host_name: "jahanvi" }];
     const removedKeys = ["host_name"];
@@ -73,7 +122,7 @@ describe("formatDatas", () => {
       expect(d).not.toHaveProperty("host_name");
     });
   });
-  test("return array should not have multiple removed keys", () => {
+  test("return array of objects should not have multiple removed keys", () => {
     const refObj1 = { jahanvi: 1 };
     const refObj2 = { admin: 1 };
     const rawData = [{ host_name: "jahanvi", role: "admin" }];
@@ -88,7 +137,7 @@ describe("formatDatas", () => {
       expect(d).not.toHaveProperty("role");
     });
   });
-  test("return array of object should have new key", () => {
+  test("return array of objects should have new key", () => {
     const refObjs = [{ jahanvi: 1 }];
     const rawData = [{ host_name: "jahanvi" }];
     const removedKeys = ["host_name"];
@@ -98,7 +147,7 @@ describe("formatDatas", () => {
 
     expect(data.length).toBeGreaterThan(0);
     data.forEach((d) => {
-      expect(d).toHaveProperty("host_id");
+      expect(d).toHaveProperty("host_id", 1);
     });
   });
   test("return array of objects should have multiple new key-value pairs", () => {
