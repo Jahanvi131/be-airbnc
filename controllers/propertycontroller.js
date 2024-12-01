@@ -6,7 +6,9 @@ const {
 } = require("../models/propertymodel");
 
 exports.getProperties = (req, res, next) => {
-  fetchProperties()
+  const query = req.query;
+
+  fetchProperties(query)
     .then((properties) => {
       {
         res.send({ properties });

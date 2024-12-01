@@ -1,18 +1,60 @@
-const { query } = require("express");
 const db = require("../db/connection");
 
-exports.fetchProperties = async () => {
+exports.fetchProperties = async (options = {}) => {
   try {
-    const queryStr = `SELECT property_id, name as property_name,
-                      location, price_per_night,
-                      CONCAT(first_name, ' ', surname) as host
-                      FROM properties p JOIN users u ON
-                      p.host_id = u.user_id`;
+    const { maxprice, minprice, sort = "name", order = "asc", host } = options;
+    const values = [];
+    const validSortBy = ["price_per_night", "name"];
+    const validSortByOrder = ["asc", "desc"];
 
-    const { rows } = await db.query(queryStr);
+    if (!validSortBy.includes(sort) || !validSortByOrder.includes(order)) {
+      return Promise.reject({
+        status: 400,
+        msg: "Oops! Invalid either sort or order.",
+      });
+    }
+
+    let queryStr = `SELECT property_id, name as property_name,
+                      location, price_per_night::float,
+                      CONCAT(first_name, ' ', surname) AS host
+                      FROM properties p JOIN users u ON
+                      p.host_id = u.user_id `;
+
+    if (Object.keys(options).length > 0 && (maxprice || minprice || host))
+      queryStr += "WHERE ";
+
+    if (maxprice) {
+      values.push(maxprice);
+      queryStr += `price_per_night >= $${values.length} `;
+    }
+
+    if (minprice) {
+      if (values.length) {
+        queryStr += "AND ";
+      }
+      values.push(minprice);
+      queryStr += `price_per_night < $${values.length} `;
+    }
+
+    if (host) {
+      if (values.length) {
+        queryStr += "AND ";
+      }
+      values.push(host);
+      queryStr += `host_id = $${values.length} `;
+    }
+
+    queryStr += `ORDER BY ${sort} ${order}`;
+
+    const { rows } = await db.query(queryStr, values);
+    if (rows.length === 0) {
+      return Promise.reject({ status: 404, msg: "no record found." });
+    }
     return rows;
   } catch (err) {
-    console.log(err);
+    if (err.code === "22P02") {
+      return Promise.reject({ status: 400, msg: "Bad Request." });
+    }
   }
 };
 

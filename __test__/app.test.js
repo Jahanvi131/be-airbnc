@@ -45,6 +45,83 @@ describe("app", () => {
               });
             });
         });
+        test("200 - response with all properties where price per night greater than max price", () => {
+          return request(app)
+            .get("/api/properties?maxprice=90")
+            .expect(200)
+            .then(({ body: { properties } }) => {
+              expect(Array.isArray(properties)).toBe(true);
+
+              properties.forEach((p) => {
+                expect(typeof p).toBe("object");
+                expect(p).toHaveProperty("price_per_night");
+                expect(p.price_per_night).toBeGreaterThanOrEqual(90);
+              });
+            });
+        });
+        test("200 - response with all properties where price per night less than min price", () => {
+          return request(app)
+            .get("/api/properties?minprice=90")
+            .expect(200)
+            .then(({ body: { properties } }) => {
+              expect(Array.isArray(properties)).toBe(true);
+
+              properties.forEach((p) => {
+                expect(typeof p).toBe("object");
+                expect(p).toHaveProperty("price_per_night");
+                expect(p.price_per_night).toBeLessThan(90);
+              });
+            });
+        });
+        test("200 - response with all properties where price per night between maxprice and minprice", () => {
+          return request(app)
+            .get("/api/properties?minprice=90&&maxprice=10")
+            .expect(200)
+            .then(({ body: { properties } }) => {
+              expect(Array.isArray(properties)).toBe(true);
+
+              properties.forEach((p) => {
+                expect(typeof p).toBe("object");
+                expect(p).toHaveProperty("price_per_night");
+                expect(p.price_per_night).toBeGreaterThanOrEqual(10);
+                expect(p.price_per_night).toBeLessThan(90);
+              });
+            });
+        });
+        test("200 - response with all properties sortby valid fields", () => {
+          return request(app)
+            .get("/api/properties?sort=price_per_night")
+            .expect(200)
+            .then(({ body: { properties } }) => {
+              expect(Array.isArray(properties)).toBe(true);
+              expect(properties.length).toBeGreaterThan(0);
+              expect(properties).toBeSortedBy("price_per_night");
+            });
+        });
+        test("200 - response with all properties by valid order", () => {
+          return request(app)
+            .get("/api/properties?order=desc")
+            .expect(200)
+            .then(({ body: { properties } }) => {
+              expect(Array.isArray(properties)).toBe(true);
+              expect(properties.length).toBeGreaterThan(0);
+              expect(properties).toBeSortedBy("property_name", {
+                descending: true,
+              });
+            });
+        });
+        test("200 - response with all properties filter by host", () => {
+          return request(app)
+            .get("/api/properties?host=1")
+            .expect(200)
+            .then(({ body: { properties } }) => {
+              expect(Array.isArray(properties)).toBe(true);
+              expect(properties.length).toBeGreaterThan(0);
+              properties.forEach((p) => {
+                expect(p).toHaveProperty("host", "Alice Johnson");
+              });
+            });
+        });
       });
       describe("POST", () => {
         test("201 - response with recently created property object", () => {
@@ -104,6 +181,40 @@ describe("app", () => {
       });
     });
     describe("sad path", () => {
+      describe("GET", () => {
+        test("400 - returns bad request for invalid type query", () => {
+          return request(app)
+            .get("/api/properties?maxprice=not_a_number")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad Request.");
+            });
+        });
+        test("400 - returns bad request for invalid sort fields", () => {
+          return request(app)
+            .get("/api/properties?sort=invalid_sort")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Oops! Invalid either sort or order.");
+            });
+        });
+        test("400 - returns bad request for invalid order passed", () => {
+          return request(app)
+            .get("/api/properties?order=invalid_order")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Oops! Invalid either sort or order.");
+            });
+        });
+        test("404 - returns not found when host didn't exist", () => {
+          return request(app)
+            .get("/api/properties?host=10000")
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("no record found.");
+            });
+        });
+      });
       describe("POST", () => {
         test("400 - returns bad request for missing fields", () => {
           const postData = {
