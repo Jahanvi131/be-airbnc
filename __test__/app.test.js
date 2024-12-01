@@ -74,7 +74,7 @@ describe("app", () => {
       });
       describe("DELETE", () => {
         test("204 - no response", () => {
-          return request(app).delete("/api/properties/12").expect(204);
+          return request(app).delete("/api/properties/11").expect(204);
         });
       });
       describe("PATCH", () => {
@@ -87,12 +87,12 @@ describe("app", () => {
             description: "Description of Seaside Studio Getaway test.",
           };
           return request(app)
-            .patch("/api/properties/11")
+            .patch("/api/properties/10")
             .send(updateData)
             .expect(200)
             .then(({ body: { property } }) => {
               expect(typeof property).toBe("object");
-              expect(property).toHaveProperty("property_id", 11);
+              expect(property).toHaveProperty("property_id", 10);
               expect(property).toHaveProperty("property_type", "Apartment");
               expect(property).toHaveProperty("name", "newly created one prop");
               expect(property).toHaveProperty("location", "York, UK");
@@ -185,6 +185,64 @@ describe("app", () => {
             .expect(404)
             .then(({ body: { msg } }) => {
               expect(msg).toBe("property doesn't exist.");
+            });
+        });
+      });
+      describe("PATCH", () => {
+        test("400 - returns bad request for invalid fields", () => {
+          const updateData = {
+            propertyname: "test",
+            propertytype: "Studio",
+            location: "Cornwall, UK",
+            pricepernight: 95.0,
+            desc: "Description of Seaside Studio Getaway.",
+          };
+          return request(app)
+            .patch("/api/properties/10")
+            .send(updateData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad Request.");
+            });
+        });
+        test("400 - returns bad request for invalid type in foreign key fields", () => {
+          const updateData = {
+            property_name: "1",
+            property_type: 1,
+            location: "Cornwall, UK",
+            price_per_night: "95.0",
+            description: 12,
+          };
+          return request(app)
+            .patch("/api/properties/10")
+            .send(updateData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad Request.");
+            });
+        });
+        test("400 - returns bad request for invalid id", () => {
+          const updateData = {
+            property_name: "newly created one prop",
+            property_type: "Apartment",
+            location: "York, UK",
+            price_per_night: 94.0,
+            description: "Description of Seaside Studio Getaway test.",
+          };
+          return request(app)
+            .patch("/api/properties/invalid_id")
+            .send(updateData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid Id.");
+            });
+        });
+        test("404 - returns not found when the property does not exist", () => {
+          return request(app)
+            .patch("/api/properties/1000")
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("property doesn't exist, no record updated.");
             });
         });
       });

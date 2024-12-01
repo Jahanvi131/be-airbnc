@@ -80,8 +80,17 @@ exports.updateProperty = async (
       property_id,
     ];
     const { rows: updatedProperty } = await db.query(queryStr, values);
+    if (updatedProperty.length === 0) {
+      return Promise.reject({
+        status: 404,
+        msg: "property doesn't exist, no record updated.",
+      });
+    }
     return updatedProperty[0];
   } catch (err) {
-    console.log(err);
+    if (err.code === "22P02") {
+      return Promise.reject({ status: 400, msg: "Invalid Id." });
+    }
+    return Promise.reject({ status: 400, msg: "Bad Request." });
   }
 };
