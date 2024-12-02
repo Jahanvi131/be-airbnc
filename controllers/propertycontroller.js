@@ -3,7 +3,7 @@ const {
   insertProperty,
   deleteProperty,
   updateProperty,
-} = require("../models/propertymodel");
+} = require("../models/properties/propertymodel");
 
 exports.getProperties = (req, res, next) => {
   const query = req.query;

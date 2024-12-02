@@ -88,7 +88,7 @@ describe("app", () => {
               });
             });
         });
-        test("200 - response with all properties sortby valid fields", () => {
+        test("200 - response with all properties sortby valid field(price_per_night)", () => {
           return request(app)
             .get("/api/properties?sort=price_per_night")
             .expect(200)
@@ -96,6 +96,16 @@ describe("app", () => {
               expect(Array.isArray(properties)).toBe(true);
               expect(properties.length).toBeGreaterThan(0);
               expect(properties).toBeSortedBy("price_per_night");
+            });
+        });
+        test("200 - response with all properties sortby valid field(popularity)", () => {
+          return request(app)
+            .get("/api/properties?sort=popularity")
+            .expect(200)
+            .then(({ body: { properties } }) => {
+              expect(Array.isArray(properties)).toBe(true);
+              expect(properties.length).toBeGreaterThan(0);
+              expect(properties).toBeSortedBy("popularity");
             });
         });
         test("200 - response with all properties by valid order", () => {
