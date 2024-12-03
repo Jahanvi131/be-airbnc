@@ -1,11 +1,14 @@
 const express = require("express");
 const propertiesRouter = express.Router();
+const favouritesRouter = require("../routes/favourites.router");
 const {
   getProperties,
   postProperty,
   deleteProperty,
   patchProperty,
 } = require("../controllers/propertycontroller");
+
+propertiesRouter.use("/:property_id/favourite", favouritesRouter);
 
 propertiesRouter.route("/").get(getProperties).post(postProperty);
 

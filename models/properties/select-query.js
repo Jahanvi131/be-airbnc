@@ -36,6 +36,5 @@ exports.selectProperties = (options = {}) => {
   queryStr += `GROUP BY p.property_id, first_name, surname `;
   queryStr += `ORDER BY ${sort} ${order} `;
 
-  console.log(queryStr);
   return { query: queryStr, values: values };
 };

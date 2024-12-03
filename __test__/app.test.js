@@ -369,4 +369,97 @@ describe("app", () => {
       });
     });
   });
+  describe("/api/properties/:id/favourite", () => {
+    describe("POST", () => {
+      describe("happy path", () => {
+        test("201 - response with recently created property's favourite object", () => {
+          const postData = {
+            guest_id: 1,
+          };
+          return request(app)
+            .post("/api/properties/1/favourite")
+            .send(postData)
+            .expect(201)
+            .then(({ body: { favourite } }) => {
+              expect(typeof favourite).toBe("object");
+              expect(favourite).toHaveProperty("favourite_id");
+              expect(favourite).toHaveProperty("msg");
+              expect(favourite.msg).toBe("Property favourited successfully.");
+            });
+        });
+      });
+      describe("sad path", () => {
+        test("405 - method not allowed [patch or put]", () => {
+          const invalidMethods = ["patch", "put"];
+
+          return Promise.all(
+            invalidMethods.map((method) => {
+              return request(app)
+                [method]("/api/properties/1/favourite")
+                .expect(405)
+                .then(({ body: { msg } }) => {
+                  expect(msg).toBe("method not allowed");
+                });
+            })
+          );
+        });
+        test("400 - returns bad request for missing fields", () => {
+          return request(app)
+            .post("/api/properties/1/favourite")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad Request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields", () => {
+          const postData = {
+            guestid: 1,
+          };
+          return request(app)
+            .post("/api/properties/1/favourite")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad Request.");
+            });
+        });
+        test("400 - returns bad request for invalid foreign key reference fields - guest_id", () => {
+          const postData = {
+            guest_id: 10000000,
+          };
+          return request(app)
+            .post("/api/properties/1/favourite")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad Request.");
+            });
+        });
+        test("400 - returns bad request for invalid foreign key reference fields - property_id", () => {
+          const postData = {
+            guest_id: 1,
+          };
+          return request(app)
+            .post("/api/properties/100000/favourite")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad Request.");
+            });
+        });
+        test("400 - returns bad request for invalid type of property_id is passing in url", () => {
+          const postData = {
+            guest_id: 1,
+          };
+          return request(app)
+            .post("/api/properties/invalid_id/favourite")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("invalid property id passed in url.");
+            });
+        });
+      });
+    });
+  });
 });
