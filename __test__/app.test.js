@@ -160,12 +160,12 @@ describe("app", () => {
         });
       });
       describe("DELETE", () => {
-        test("204 - no response", () => {
+        test("204 - no response for recently deleted property", () => {
           return request(app).delete("/api/properties/11").expect(204);
         });
       });
       describe("PATCH", () => {
-        test("200 - response with updated property object", () => {
+        test("200 - response with recently updated property object", () => {
           const updateData = {
             property_name: "newly created one prop",
             property_type: "Apartment",
@@ -192,9 +192,17 @@ describe("app", () => {
     });
     describe("sad path", () => {
       describe("GET", () => {
-        test("400 - returns bad request for invalid type query", () => {
+        test("400 - returns bad request for invalid type query(maxprice)", () => {
           return request(app)
             .get("/api/properties?maxprice=not_a_number")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad Request.");
+            });
+        });
+        test("400 - returns bad request for invalid type query(minprice)", () => {
+          return request(app)
+            .get("/api/properties?minprice=not_a_number")
             .expect(400)
             .then(({ body: { msg } }) => {
               expect(msg).toBe("Bad Request.");
@@ -372,7 +380,7 @@ describe("app", () => {
   describe("/api/properties/:id/favourite", () => {
     describe("POST", () => {
       describe("happy path", () => {
-        test("201 - response with recently created property's favourite object", () => {
+        test("201 - response with recently created favourite object", () => {
           const postData = {
             guest_id: 1,
           };
@@ -389,7 +397,7 @@ describe("app", () => {
         });
       });
       describe("sad path", () => {
-        test("405 - method not allowed [patch or put]", () => {
+        test("405 - method not allowed [patch or put] for favourite", () => {
           const invalidMethods = ["patch", "put"];
 
           return Promise.all(
@@ -447,7 +455,7 @@ describe("app", () => {
               expect(msg).toBe("Bad Request.");
             });
         });
-        test("400 - returns bad request for invalid type of property_id is passing in url", () => {
+        test("400 - returns bad request for invalid id", () => {
           const postData = {
             guest_id: 1,
           };
@@ -457,6 +465,31 @@ describe("app", () => {
             .expect(400)
             .then(({ body: { msg } }) => {
               expect(msg).toBe("invalid property id passed in url.");
+            });
+        });
+      });
+    });
+    describe("DELETE", () => {
+      describe("happy path", () => {
+        test("204 - no response for recently deleted favourite", () => {
+          return request(app).delete("/api/properties/1/favourite").expect(204);
+        });
+      });
+      describe("sad path", () => {
+        test("400 - returns bad request for invalid id", () => {
+          return request(app)
+            .delete("/api/properties/invalid_id/favourite")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("invalid favourite id passed in url.");
+            });
+        });
+        test("404 - returns not found when favourite does not exist", () => {
+          return request(app)
+            .delete("/api/properties/10000000/favourite")
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("record doesn't exist.");
             });
         });
       });

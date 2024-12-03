@@ -1,8 +1,15 @@
 const express = require("express");
 const favouritesRouter = express.Router({ mergeParams: true });
-const { postFavourite } = require("../controllers/favouritecontroller");
+const {
+  postFavourite,
+  deleteFavourite,
+} = require("../controllers/favouritecontroller");
 const { handleMethodNotAllowed } = require("../server/error");
 
-favouritesRouter.route("/").post(postFavourite).all(handleMethodNotAllowed);
+favouritesRouter
+  .route("/")
+  .post(postFavourite)
+  .delete(deleteFavourite)
+  .all(handleMethodNotAllowed);
 
 module.exports = favouritesRouter;
