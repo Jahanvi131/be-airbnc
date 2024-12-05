@@ -14,7 +14,7 @@ propertiesRouter.use("/:id/favourite", favouritesRouter);
 propertiesRouter.route("/").get(getProperties).post(postProperty);
 
 propertiesRouter
-  .route("/:property_id")
+  .route("/:id")
   .get(getPropertyById)
   .delete(deleteProperty)
   .patch(patchProperty);

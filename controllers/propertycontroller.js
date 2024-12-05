@@ -28,7 +28,7 @@ exports.postProperty = (req, res, next) => {
 };
 
 exports.deleteProperty = (req, res, next) => {
-  const { property_id } = req.params;
+  const { id: property_id } = req.params;
 
   deleteProperty(property_id)
     .then(() => {
@@ -38,7 +38,7 @@ exports.deleteProperty = (req, res, next) => {
 };
 
 exports.patchProperty = (req, res, next) => {
-  const { property_id } = req.params;
+  const { id: property_id } = req.params;
   const property = req.body;
 
   updateProperty(property_id, property)
@@ -49,7 +49,7 @@ exports.patchProperty = (req, res, next) => {
 };
 
 exports.getPropertyById = (req, res, next) => {
-  const { property_id } = req.params;
+  const { id: property_id } = req.params;
   const { user_id } = req.query;
 
   fetchPropertyById(property_id, user_id)
