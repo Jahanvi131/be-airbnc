@@ -17,12 +17,12 @@ describe("app", () => {
         .get("/api/invalid-endpoint")
         .expect(404)
         .then(({ body: { msg } }) => {
-          expect(msg).toBe("page not found");
+          expect(msg).toBe("Page not found.");
         });
     });
   });
   describe("/api/properties", () => {
-    describe("happy path", () => {
+    describe("HAPPY PATH", () => {
       describe("GET", () => {
         test("200 - response with all properties", () => {
           return request(app)
@@ -50,10 +50,7 @@ describe("app", () => {
             .get("/api/properties?maxprice=90")
             .expect(200)
             .then(({ body: { properties } }) => {
-              expect(Array.isArray(properties)).toBe(true);
-
               properties.forEach((p) => {
-                expect(typeof p).toBe("object");
                 expect(p).toHaveProperty("price_per_night");
                 expect(p.price_per_night).toBeGreaterThanOrEqual(90);
               });
@@ -64,10 +61,7 @@ describe("app", () => {
             .get("/api/properties?minprice=90")
             .expect(200)
             .then(({ body: { properties } }) => {
-              expect(Array.isArray(properties)).toBe(true);
-
               properties.forEach((p) => {
-                expect(typeof p).toBe("object");
                 expect(p).toHaveProperty("price_per_night");
                 expect(p.price_per_night).toBeLessThan(90);
               });
@@ -78,14 +72,20 @@ describe("app", () => {
             .get("/api/properties?minprice=90&&maxprice=10")
             .expect(200)
             .then(({ body: { properties } }) => {
-              expect(Array.isArray(properties)).toBe(true);
-
               properties.forEach((p) => {
-                expect(typeof p).toBe("object");
                 expect(p).toHaveProperty("price_per_night");
                 expect(p.price_per_night).toBeGreaterThanOrEqual(10);
                 expect(p.price_per_night).toBeLessThan(90);
               });
+            });
+        });
+        test("200 - response with all properties default sortby valid field(popularity)", () => {
+          return request(app)
+            .get("/api/properties?sort=popularity")
+            .expect(200)
+            .then(({ body: { properties } }) => {
+              expect(properties.length).toBeGreaterThan(0);
+              expect(properties).toBeSortedBy("popularity");
             });
         });
         test("200 - response with all properties sortby valid field(price_per_night)", () => {
@@ -93,19 +93,8 @@ describe("app", () => {
             .get("/api/properties?sort=price_per_night")
             .expect(200)
             .then(({ body: { properties } }) => {
-              expect(Array.isArray(properties)).toBe(true);
               expect(properties.length).toBeGreaterThan(0);
               expect(properties).toBeSortedBy("price_per_night");
-            });
-        });
-        test("200 - response with all properties sortby valid field(popularity)", () => {
-          return request(app)
-            .get("/api/properties?sort=popularity")
-            .expect(200)
-            .then(({ body: { properties } }) => {
-              expect(Array.isArray(properties)).toBe(true);
-              expect(properties.length).toBeGreaterThan(0);
-              expect(properties).toBeSortedBy("popularity");
             });
         });
         test("200 - response with all properties by valid order", () => {
@@ -113,7 +102,6 @@ describe("app", () => {
             .get("/api/properties?order=desc")
             .expect(200)
             .then(({ body: { properties } }) => {
-              expect(Array.isArray(properties)).toBe(true);
               expect(properties.length).toBeGreaterThan(0);
               expect(properties).toBeSortedBy("property_name", {
                 descending: true,
@@ -125,7 +113,6 @@ describe("app", () => {
             .get("/api/properties?host=1")
             .expect(200)
             .then(({ body: { properties } }) => {
-              expect(Array.isArray(properties)).toBe(true);
               expect(properties.length).toBeGreaterThan(0);
               properties.forEach((p) => {
                 expect(p).toHaveProperty("host", "Alice Johnson");
@@ -156,6 +143,162 @@ describe("app", () => {
               expect(property).toHaveProperty("price_per_night", "95");
               expect(property).toHaveProperty("host_id", 1);
               expect(property).toHaveProperty("description");
+            });
+        });
+      });
+    });
+    describe("SAD PATH", () => {
+      describe("GET", () => {
+        test("400 - returns bad request for invalid type query(maxprice)", () => {
+          return request(app)
+            .get("/api/properties?maxprice=not_a_number")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
+            });
+        });
+        test("400 - returns bad request for invalid type query(minprice)", () => {
+          return request(app)
+            .get("/api/properties?minprice=not_a_number")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
+            });
+        });
+        test("400 - returns bad request for invalid sort fields", () => {
+          return request(app)
+            .get("/api/properties?sort=invalid_sort")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Oops! Invalid either sort or order.");
+            });
+        });
+        test("400 - returns bad request for invalid order passed", () => {
+          return request(app)
+            .get("/api/properties?order=invalid_order")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Oops! Invalid either sort or order.");
+            });
+        });
+        test("404 - returns not found when host didn't exist", () => {
+          return request(app)
+            .get("/api/properties?host=10000")
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("No record found.");
+            });
+        });
+      });
+      describe("POST", () => {
+        test("400 - returns bad request for missing fields", () => {
+          const postData = {
+            property_type: "Studio",
+            host_id: 1,
+          };
+          return request(app)
+            .post("/api/properties")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields", () => {
+          const postData = {
+            property_name: "test",
+            property_type: "Studio",
+            location: "Cornwall, UK",
+            price_per_night: 95.0,
+            description: "Description of Seaside Studio Getaway.",
+            host_id: 1,
+          };
+          return request(app)
+            .post("/api/properties")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid type fields", () => {
+          const postData = {
+            property_name: 1,
+            property_type: "Studio",
+            location: "Cornwall, UK",
+            price_per_night: 95.0,
+            description: "Description of Seaside Studio Getaway.",
+            host_id: "1",
+          };
+          return request(app)
+            .post("/api/properties")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("404 - returns not found for in-existent foreign key - host id", () => {
+          const postData = {
+            name: 1,
+            property_type: "Studio",
+            location: "Cornwall, UK",
+            price_per_night: 95.0,
+            description: "Description of Seaside Studio Getaway.",
+            host_id: 99999,
+          };
+          return request(app)
+            .post("/api/properties")
+            .send(postData)
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("foreign key reference not found.");
+            });
+        });
+      });
+    });
+  });
+  describe("/api/properties/:id", () => {
+    describe("HAPPY PATH", () => {
+      describe("GET", () => {
+        test("200 - response with single property object", () => {
+          return request(app)
+            .get("/api/properties/1")
+            .expect(200)
+            .then(({ body: { property } }) => {
+              expect(typeof property).toBe("object");
+              expect(property).toHaveProperty("property_id", 1);
+              expect(property).toHaveProperty(
+                "property_name",
+                "Modern Apartment in City Center"
+              );
+              expect(property).toHaveProperty("location", "London, UK");
+              expect(property).toHaveProperty("price_per_night", 120);
+              expect(property).toHaveProperty(
+                "description",
+                "Description of Modern Apartment in City Center."
+              );
+              expect(property).toHaveProperty("host", "Alice Johnson");
+              expect(property).toHaveProperty(
+                "host_avatar",
+                "https://example.com/images/alice.jpg"
+              );
+
+              expect(property).toHaveProperty("favourite_count");
+              expect(property.favourite_count).toBeGreaterThan(0);
+
+              expect(property).not.toHaveProperty("host_id");
+              expect(property).not.toHaveProperty("guest_id");
+              expect(property).not.toHaveProperty("favourite_id");
+            });
+        });
+        test("200 - response with single property object filter by user", () => {
+          return request(app)
+            .get("/api/properties/1?user_id=1")
+            .expect(200)
+            .then(({ body: { property } }) => {
+              expect(property).toHaveProperty("property_id", 1);
+              expect(property).toHaveProperty("favourited", false);
             });
         });
       });
@@ -190,112 +333,30 @@ describe("app", () => {
         });
       });
     });
-    describe("sad path", () => {
+    describe("SAD PATH", () => {
       describe("GET", () => {
-        test("400 - returns bad request for invalid type query(maxprice)", () => {
+        test("400 - returns bad request for invalid id", () => {
           return request(app)
-            .get("/api/properties?maxprice=not_a_number")
+            .get("/api/properties/invalid_id")
             .expect(400)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad Request.");
+              expect(msg).toBe("Invalid input type.");
             });
         });
-        test("400 - returns bad request for invalid type query(minprice)", () => {
+        test("400 - returns bad request for invalid type query", () => {
           return request(app)
-            .get("/api/properties?minprice=not_a_number")
+            .get("/api/properties/1?user_id=invalid_id")
             .expect(400)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad Request.");
+              expect(msg).toBe("Invalid input type.");
             });
         });
-        test("400 - returns bad request for invalid sort fields", () => {
+        test("404 - returns not found when the property does not exist", () => {
           return request(app)
-            .get("/api/properties?sort=invalid_sort")
-            .expect(400)
-            .then(({ body: { msg } }) => {
-              expect(msg).toBe("Oops! Invalid either sort or order.");
-            });
-        });
-        test("400 - returns bad request for invalid order passed", () => {
-          return request(app)
-            .get("/api/properties?order=invalid_order")
-            .expect(400)
-            .then(({ body: { msg } }) => {
-              expect(msg).toBe("Oops! Invalid either sort or order.");
-            });
-        });
-        test("404 - returns not found when host didn't exist", () => {
-          return request(app)
-            .get("/api/properties?host=10000")
+            .get("/api/properties/9999999")
             .expect(404)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("no record found.");
-            });
-        });
-      });
-      describe("POST", () => {
-        test("400 - returns bad request for missing fields", () => {
-          const postData = {
-            property_type: "Studio",
-            host_id: 1,
-          };
-          return request(app)
-            .post("/api/properties")
-            .send(postData)
-            .expect(400)
-            .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad Request.");
-            });
-        });
-        test("400 - returns bad request for invalid fields", () => {
-          const postData = {
-            property_name: "test",
-            property_type: "Studio",
-            location: "Cornwall, UK",
-            price_per_night: 95.0,
-            description: "Description of Seaside Studio Getaway.",
-            host_id: 1,
-          };
-          return request(app)
-            .post("/api/properties")
-            .send(postData)
-            .expect(400)
-            .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad Request.");
-            });
-        });
-        test("400 - returns bad request for invalid type fields", () => {
-          const postData = {
-            property_name: 1,
-            property_type: "Studio",
-            location: "Cornwall, UK",
-            price_per_night: 95.0,
-            description: "Description of Seaside Studio Getaway.",
-            host_id: "1",
-          };
-          return request(app)
-            .post("/api/properties")
-            .send(postData)
-            .expect(400)
-            .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad Request.");
-            });
-        });
-        test("400 - returns bad request for invalid foreign key reference fields", () => {
-          const postData = {
-            property_name: 1,
-            property_type: "Studio",
-            location: "Cornwall, UK",
-            price_per_night: 95.0,
-            description: "Description of Seaside Studio Getaway.",
-            host_id: 100000000000000,
-          };
-          return request(app)
-            .post("/api/properties")
-            .send(postData)
-            .expect(400)
-            .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad Request.");
+              expect(msg).toBe("No record found.");
             });
         });
       });
@@ -305,7 +366,7 @@ describe("app", () => {
             .delete("/api/properties/invalid_id")
             .expect(400)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("Invalid Id.");
+              expect(msg).toBe("Invalid input type.");
             });
         });
         test("404 - returns not found when the property does not exist", () => {
@@ -313,7 +374,7 @@ describe("app", () => {
             .delete("/api/properties/1000")
             .expect(404)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("property doesn't exist.");
+              expect(msg).toBe("property doesn't exist, no record deleted.");
             });
         });
       });
@@ -331,10 +392,10 @@ describe("app", () => {
             .send(updateData)
             .expect(400)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad Request.");
+              expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid type in foreign key fields", () => {
+        test("404 - returns bad request for invalid foreign key reference fields - property_type", () => {
           const updateData = {
             property_name: "1",
             property_type: 1,
@@ -345,9 +406,9 @@ describe("app", () => {
           return request(app)
             .patch("/api/properties/10")
             .send(updateData)
-            .expect(400)
+            .expect(404)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad Request.");
+              expect(msg).toBe("foreign key reference not found.");
             });
         });
         test("400 - returns bad request for invalid id", () => {
@@ -363,7 +424,7 @@ describe("app", () => {
             .send(updateData)
             .expect(400)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("Invalid Id.");
+              expect(msg).toBe("Invalid input type.");
             });
         });
         test("404 - returns not found when the property does not exist", () => {
@@ -378,8 +439,8 @@ describe("app", () => {
     });
   });
   describe("/api/properties/:id/favourite", () => {
-    describe("POST", () => {
-      describe("happy path", () => {
+    describe("HAPPY PATH", () => {
+      describe("POST", () => {
         test("201 - response with recently created favourite object", () => {
           const postData = {
             guest_id: 1,
@@ -396,7 +457,9 @@ describe("app", () => {
             });
         });
       });
-      describe("sad path", () => {
+    });
+    describe("SAD PATH", () => {
+      describe("POST", () => {
         test("405 - method not allowed [patch or put] for favourite", () => {
           const invalidMethods = ["patch", "put"];
 
@@ -406,7 +469,7 @@ describe("app", () => {
                 [method]("/api/properties/1/favourite")
                 .expect(405)
                 .then(({ body: { msg } }) => {
-                  expect(msg).toBe("method not allowed");
+                  expect(msg).toBe("Method not allowed.");
                 });
             })
           );
@@ -416,7 +479,7 @@ describe("app", () => {
             .post("/api/properties/1/favourite")
             .expect(400)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad Request.");
+              expect(msg).toBe("Bad request.");
             });
         });
         test("400 - returns bad request for invalid fields", () => {
@@ -428,31 +491,31 @@ describe("app", () => {
             .send(postData)
             .expect(400)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad Request.");
+              expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid foreign key reference fields - guest_id", () => {
+        test("404 - returns bad request for invalid foreign key reference fields - guest_id", () => {
           const postData = {
-            guest_id: 10000000,
+            guest_id: 99999,
           };
           return request(app)
             .post("/api/properties/1/favourite")
             .send(postData)
-            .expect(400)
+            .expect(404)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad Request.");
+              expect(msg).toBe("foreign key reference not found.");
             });
         });
-        test("400 - returns bad request for invalid foreign key reference fields - property_id", () => {
+        test("404 - returns bad request for invalid foreign key reference fields - property_id", () => {
           const postData = {
             guest_id: 1,
           };
           return request(app)
-            .post("/api/properties/100000/favourite")
+            .post("/api/properties/99999/favourite")
             .send(postData)
-            .expect(400)
+            .expect(404)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad Request.");
+              expect(msg).toBe("foreign key reference not found.");
             });
         });
         test("400 - returns bad request for invalid id", () => {
@@ -464,32 +527,36 @@ describe("app", () => {
             .send(postData)
             .expect(400)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("invalid property id passed in url.");
+              expect(msg).toBe("Invalid input type.");
             });
         });
       });
     });
-    describe("DELETE", () => {
-      describe("happy path", () => {
+  });
+  describe("/api/favourites/:id", () => {
+    describe("HAPPY PATH", () => {
+      describe("DELETE", () => {
         test("204 - no response for recently deleted favourite", () => {
-          return request(app).delete("/api/properties/1/favourite").expect(204);
+          return request(app).delete("/api/favourites/1").expect(204);
         });
       });
-      describe("sad path", () => {
+    });
+    describe("SAD PATH", () => {
+      describe("DELETE", () => {
         test("400 - returns bad request for invalid id", () => {
           return request(app)
-            .delete("/api/properties/invalid_id/favourite")
+            .delete("/api/favourites/invalid_id")
             .expect(400)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("invalid favourite id passed in url.");
+              expect(msg).toBe("Invalid input type.");
             });
         });
         test("404 - returns not found when favourite does not exist", () => {
           return request(app)
-            .delete("/api/properties/10000000/favourite")
+            .delete("/api/favourites/10000000")
             .expect(404)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("record doesn't exist.");
+              expect(msg).toBe("No record found.");
             });
         });
       });

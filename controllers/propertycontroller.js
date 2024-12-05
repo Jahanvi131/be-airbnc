@@ -1,5 +1,6 @@
 const {
   fetchProperties,
+  fetchPropertyById,
   insertProperty,
   deleteProperty,
   updateProperty,
@@ -41,6 +42,17 @@ exports.patchProperty = (req, res, next) => {
   const property = req.body;
 
   updateProperty(property_id, property)
+    .then((property) => {
+      res.status(200).send({ property });
+    })
+    .catch(next);
+};
+
+exports.getPropertyById = (req, res, next) => {
+  const { property_id } = req.params;
+  const { user_id } = req.query;
+
+  fetchPropertyById(property_id, user_id)
     .then((property) => {
       res.status(200).send({ property });
     })
