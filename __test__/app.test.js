@@ -551,7 +551,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found when favourite does not exist", () => {
+        test("404 - returns not found for non-existent favourite id", () => {
           return request(app)
             .delete("/api/favourites/10000000")
             .expect(404)
@@ -562,5 +562,55 @@ describe("app", () => {
       });
     });
   });
-  describe("", () => {});
+  describe("/api/properties/:id/reviews", () => {
+    describe("HAPPY PATH", () => {
+      describe("GET", () => {
+        test("200 - response with all reviews of the perticular property", () => {
+          return request(app)
+            .get("/api/properties/1/reviews")
+            .expect(200)
+            .then(({ body }) => {
+              const { reviews } = body;
+              expect(Array.isArray(reviews)).toBe(true);
+              expect(reviews.length).toBeGreaterThan(0);
+              reviews.forEach((r) => {
+                expect(typeof r).toBe("object");
+                expect(r).toHaveProperty("review_id");
+                expect(r).toHaveProperty("comment");
+                expect(r).toHaveProperty("rating");
+                expect(r).toHaveProperty("created_at");
+                expect(r).toHaveProperty("guest");
+                expect(r).toHaveProperty("guest_avatar");
+
+                expect(r).not.toHaveProperty("guest_id");
+              });
+              expect(body).toHaveProperty("average_rating");
+            });
+        });
+        test("200 - empty response for no reviews on the perticular property", () => {
+          return request(app).get("/api/properties/10/reviews").expect(200);
+        });
+      });
+    });
+    describe("SAD PATH", () => {
+      describe("GET", () => {
+        test("400 - returns bad request for invalid property id", () => {
+          return request(app)
+            .get("/api/properties/invalid_id/reviews")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
+            });
+        });
+        test("404 - returns not found for non-existent property id", () => {
+          return request(app)
+            .get("/api/properties/99999/reviews")
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("No record found.");
+            });
+        });
+      });
+    });
+  });
 });
