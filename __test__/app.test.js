@@ -556,7 +556,9 @@ describe("app", () => {
             .delete("/api/favourites/10000000")
             .expect(404)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("No record found.");
+              expect(msg).toBe(
+                "property's favourite doesn't exist, no record deleted."
+              );
             });
         });
       });
@@ -591,6 +593,30 @@ describe("app", () => {
           return request(app).get("/api/properties/10/reviews").expect(200);
         });
       });
+      describe("POST", () => {
+        describe("HAPPY PATH", () => {
+          test("201 - response with recently created review object", () => {
+            const postData = {
+              guest_id: 1,
+              rating: 4,
+              comment: "test comment",
+            };
+            return request(app)
+              .post("/api/properties/1/reviews")
+              .send(postData)
+              .expect(201)
+              .then(({ body: { review } }) => {
+                expect(typeof review).toBe("object");
+                expect(review).toHaveProperty("review_id");
+                expect(review).toHaveProperty("property_id");
+                expect(review).toHaveProperty("guest_id");
+                expect(review).toHaveProperty("guest_id");
+                expect(review).toHaveProperty("comment");
+                expect(review).toHaveProperty("created_at");
+              });
+          });
+        });
+      });
     });
     describe("SAD PATH", () => {
       describe("GET", () => {
@@ -608,6 +634,121 @@ describe("app", () => {
             .expect(404)
             .then(({ body: { msg } }) => {
               expect(msg).toBe("No record found.");
+            });
+        });
+      });
+      describe("POST", () => {
+        test("405 - method not allowed [patch or put] for review", () => {
+          const invalidMethods = ["patch", "put"];
+
+          return Promise.all(
+            invalidMethods.map((method) => {
+              return request(app)
+                [method]("/api/properties/1/reviews")
+                .expect(405)
+                .then(({ body: { msg } }) => {
+                  expect(msg).toBe("Method not allowed.");
+                });
+            })
+          );
+        });
+        test("400 - returns bad request for missing fields", () => {
+          const postData = {
+            rating: 4,
+            comment: "test comment",
+          };
+          return request(app)
+            .post("/api/properties/1/reviews")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields", () => {
+          const postData = {
+            guestid: 1,
+            rat: 4,
+            cmt: "test comment",
+          };
+          return request(app)
+            .post("/api/properties/1/reviews")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("404 - returns not found  for invalid foreign key reference fields - guest_id", () => {
+          const postData = {
+            guest_id: 10000,
+            rating: 4,
+            comment: "test comment",
+          };
+          return request(app)
+            .post("/api/properties/1/reviews")
+            .send(postData)
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("foreign key reference not found.");
+            });
+        });
+        test("404 - returns not found  for invalid foreign key reference fields - property_id", () => {
+          const postData = {
+            guest_id: 1,
+            rating: 4,
+            comment: "test comment",
+          };
+          return request(app)
+            .post("/api/properties/99999/reviews")
+            .send(postData)
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("foreign key reference not found.");
+            });
+        });
+        test("400 - returns bad request for invalid id", () => {
+          const postData = {
+            guest_id: 1,
+            rating: 4,
+            comment: "test comment",
+          };
+          return request(app)
+            .post("/api/properties/invalid_id/reviews")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
+            });
+        });
+      });
+    });
+  });
+  describe("/api/reviews/:id", () => {
+    describe("HAPPY PATH", () => {
+      describe("DELETE", () => {
+        test("204 - no response for recently deleted reviews", () => {
+          return request(app).delete("/api/reviews/1").expect(204);
+        });
+      });
+    });
+    describe("SAD PATH", () => {
+      describe("DELETE", () => {
+        test("400 - returns bad request for invalid id", () => {
+          return request(app)
+            .delete("/api/reviews/invalid_id")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
+            });
+        });
+        test("404 - returns not found for non-existent review id", () => {
+          return request(app)
+            .delete("/api/reviews/100000")
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe(
+                "property's review doesn't exist, no record deleted."
+              );
             });
         });
       });
