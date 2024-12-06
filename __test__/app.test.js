@@ -754,4 +754,48 @@ describe("app", () => {
       });
     });
   });
+  describe("/api/users/:id", () => {
+    describe("HAPPY PATH", () => {
+      describe("GET", () => {
+        test("200 - response with perticular user object", () => {
+          return request(app)
+            .get("/api/users/1")
+            .expect(200)
+            .then(({ body: { user } }) => {
+              expect(typeof user).toBe("object");
+              expect(user).toHaveProperty("user_id", 1);
+              expect(user).toHaveProperty("first_name", "Alice");
+              expect(user).toHaveProperty("surname", "Johnson");
+              expect(user).toHaveProperty("email", "alice@example.com");
+              expect(user).toHaveProperty("phone_number", "+44 7000 111111");
+              expect(user).toHaveProperty(
+                "avatar",
+                "https://example.com/images/alice.jpg"
+              );
+              expect(user).toHaveProperty("created_at");
+            });
+        });
+      });
+    });
+    describe("SAD PATH", () => {
+      describe("GET", () => {
+        test("400 - returns bad request for invalid id", () => {
+          return request(app)
+            .get("/api/users/invalid_id")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
+            });
+        });
+        test("404 - returns not found for non-existent user_id", () => {
+          return request(app)
+            .get("/api/users/99999")
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("No record found.");
+            });
+        });
+      });
+    });
+  });
 });

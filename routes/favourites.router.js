@@ -8,7 +8,10 @@ const {
   handleMethodNotAllowed,
 } = require("../server/error/set-error-response");
 
-favouritesRouter.route("/").post(postFavourite).all(handleMethodNotAllowed);
+favouritesRouter
+  .route("/favourite")
+  .post(postFavourite)
+  .all(handleMethodNotAllowed);
 
 favouritesRouter.route("/:id").delete(deleteFavourite);
 

@@ -10,7 +10,7 @@ const {
 } = require("../server/error/set-error-response");
 
 reviewsRouter
-  .route("/")
+  .route("/reviews")
   .get(getReviews)
   .post(postReview)
   .all(handleMethodNotAllowed);

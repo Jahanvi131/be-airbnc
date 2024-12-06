@@ -11,9 +11,9 @@ const {
   patchProperty,
 } = require("../controllers/propertycontroller");
 
-propertiesRouter.use("/:id/favourite", favouritesRouter);
+propertiesRouter.use("/:id", favouritesRouter);
 
-propertiesRouter.use("/:id/reviews", reviewsRouter);
+propertiesRouter.use("/:id", reviewsRouter);
 
 propertiesRouter.route("/").get(getProperties).post(postProperty);
 
