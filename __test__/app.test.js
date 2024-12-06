@@ -351,7 +351,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found when the property does not exist", () => {
+        test("404 - returns not found for non-existent property_id", () => {
           return request(app)
             .get("/api/properties/9999999")
             .expect(404)
@@ -395,7 +395,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("404 - returns bad request for invalid foreign key reference fields - property_type", () => {
+        test("404 - returns not found for invalid foreign key reference fields - property_type", () => {
           const updateData = {
             property_name: "1",
             property_type: 1,
@@ -494,7 +494,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("404 - returns bad request for invalid foreign key reference fields - guest_id", () => {
+        test("404 - returns not found  for invalid foreign key reference fields - guest_id", () => {
           const postData = {
             guest_id: 99999,
           };
@@ -506,7 +506,7 @@ describe("app", () => {
               expect(msg).toBe("foreign key reference not found.");
             });
         });
-        test("404 - returns bad request for invalid foreign key reference fields - property_id", () => {
+        test("404 - returns not found  for invalid foreign key reference fields - property_id", () => {
           const postData = {
             guest_id: 1,
           };
