@@ -88,3 +88,11 @@ exports.formatReviews = (reviews) => {
     comment,
   ]);
 };
+
+exports.formatimages = (images) => {
+  return images.map(({ property_id, image_url, alt_tag }) => [
+    property_id,
+    image_url,
+    alt_tag,
+  ]);
+};

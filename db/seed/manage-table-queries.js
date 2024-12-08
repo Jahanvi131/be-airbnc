@@ -9,6 +9,8 @@ exports.dropUsers = "DROP TABLE IF EXISTS users";
 
 exports.dropPropertyTypes = "DROP TABLE IF EXISTS property_types";
 
+exports.dropImages = "DROP TABLE IF EXISTS images";
+
 // create tables queries
 exports.createPropertyTypes = `CREATE TABLE property_types(
                                property_type VARCHAR(50) PRIMARY KEY,
@@ -45,3 +47,9 @@ exports.createReviews = `CREATE TABLE reviews(
                           rating int NOT NULL CHECK (rating BETWEEN 1 AND 5),
                           comment text,
                           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`;
+
+exports.createImages = `CREATE TABLE IMAGES(
+                         image_id SERIAL PRIMARY KEY,
+                         property_id int NOT NULL REFERENCES properties(property_id),
+                         image_url VARCHAR NOT NULL,
+                         alt_text VARCHAR NOT NULL)`;

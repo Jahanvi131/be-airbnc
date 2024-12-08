@@ -10,6 +10,7 @@ const {
   formatDatas,
   formatFavourites,
   formatReviews,
+  formatimages,
 } = require("../seed/util");
 
 exports.seedPropertyTypes = async (propertyTypes) => {
@@ -49,6 +50,24 @@ exports.seedProperties = async (properties, users) => {
   );
 };
 
+exports.seedImages = async (images, properties) => {
+  const propertiesRef = createRef("name", "property_id", properties);
+
+  const imagesData = formatData(
+    propertiesRef,
+    "property_name",
+    "property_id",
+    images
+  );
+
+  return db.query(
+    format(
+      `INSERT INTO images
+       (property_id, image_url, alt_text) VALUES %L RETURNING *`,
+      formatimages(imagesData)
+    )
+  );
+};
 exports.seedfavourites = async (favourites, users, properties) => {
   const newUsers = combineNames(users);
   const usersRef = createRef("host_name", "user_id", newUsers);

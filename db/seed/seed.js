@@ -3,6 +3,7 @@ const {
   seedPropertyTypes,
   seedUsers,
   seedProperties,
+  seedImages,
   seedfavourites,
   seedReviews,
 } = require("../seed/seed-tables");
@@ -13,6 +14,7 @@ const seed = async ({
   propertiesData,
   favouritesData,
   reviewsData,
+  imagesData,
 }) => {
   try {
     await manageTables(); // creating and dropping tables
@@ -25,6 +27,8 @@ const seed = async ({
       propertiesData,
       insertedUsers
     );
+
+    await seedImages(imagesData, insertedProperties);
 
     await seedfavourites(favouritesData, insertedUsers, insertedProperties);
 
