@@ -776,6 +776,34 @@ describe("app", () => {
             });
         });
       });
+      describe("PATCH", () => {
+        test("200 - response with updated user object", () => {
+          const updateData = {
+            first_name: "Alicetest",
+            surname: "Johnsontest",
+            email: "alice@exampletest.com",
+            phone: "+44 7000 111122",
+            avatar: "https://example.com/images/bob.jpg",
+          };
+          return request(app)
+            .patch("/api/users/1")
+            .send(updateData)
+            .expect(200)
+            .then(({ body: { user } }) => {
+              expect(typeof user).toBe("object");
+              expect(user).toHaveProperty("user_id", 1);
+              expect(user).toHaveProperty("first_name", "Alicetest");
+              expect(user).toHaveProperty("surname", "Johnsontest");
+              expect(user).toHaveProperty("email", "alice@exampletest.com");
+              expect(user).toHaveProperty("phone_number", "+44 7000 111122");
+              expect(user).toHaveProperty(
+                "avatar",
+                "https://example.com/images/bob.jpg"
+              );
+              expect(user).toHaveProperty("created_at");
+            });
+        });
+      });
     });
     describe("SAD PATH", () => {
       describe("GET", () => {
@@ -793,6 +821,97 @@ describe("app", () => {
             .expect(404)
             .then(({ body: { msg } }) => {
               expect(msg).toBe("No record found.");
+            });
+        });
+      });
+      describe("PATCH", () => {
+        test("400 - returns bad request for invalid id", () => {
+          const updateData = {
+            first_name: "Alicetest",
+            surname: "Johnsontest",
+            email: "alice@exampletest.com",
+            phone: "+44 7000 111122",
+            avatar: "https://example.com/images/bob.jpg",
+          };
+          return request(app)
+            .patch("/api/users/invalid_id")
+            .send(updateData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
+            });
+        });
+        test("404 - returns not found when the user does not exist", () => {
+          return request(app)
+            .patch("/api/users/99999")
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("user doesn't exist, no record updated.");
+            });
+        });
+      });
+    });
+  });
+  describe("/api/users", () => {
+    describe("HAPPY PATH", () => {
+      describe("POST", () => {
+        test("201 - response with recently created user", () => {
+          const postData = {
+            first_name: "Alicetest",
+            surname: "Johnsontest",
+            email: "alice@exampletest.com",
+            phone: "+44 7000 111122",
+            role: "host",
+            avatar: "https://example.com/images/bob.jpg",
+          };
+          return request(app)
+            .post("/api/users")
+            .send(postData)
+            .expect(201)
+            .then(({ body: { user } }) => {
+              expect(typeof user).toBe("object");
+              expect(user).toHaveProperty("user_id", 7);
+              expect(user).toHaveProperty("first_name", "Alicetest");
+              expect(user).toHaveProperty("surname", "Johnsontest");
+              expect(user).toHaveProperty("email", "alice@exampletest.com");
+              expect(user).toHaveProperty("phone_number", "+44 7000 111122");
+              expect(user).toHaveProperty("role", "host");
+              expect(user).toHaveProperty(
+                "avatar",
+                "https://example.com/images/bob.jpg"
+              );
+              expect(user).toHaveProperty("created_at");
+            });
+        });
+      });
+    });
+    describe("SAD PATH", () => {
+      describe("POST", () => {
+        test("400 - returns bad request for missing fields", () => {
+          const postData = {};
+          return request(app)
+            .post("/api/users")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields", () => {
+          const postData = {
+            firstname: "Alicetest",
+            surrrname: "Johnsontest",
+            emaills: "alice@exampletest.com",
+            phones: "+44 7000 111122",
+            role_r: "host",
+            avatars: "https://example.com/images/bob.jpg",
+          };
+          return request(app)
+            .post("/api/users")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
             });
         });
       });

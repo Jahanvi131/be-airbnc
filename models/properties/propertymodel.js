@@ -64,13 +64,13 @@ exports.updateProperty = async (
   { property_name, property_type, location, price_per_night, description }
 ) => {
   const queryStr = `UPDATE properties SET
-                      name=$1,
-                      property_type=$2,
-                      location=$3, 
-                      price_per_night=$4,
-                      description=$5
+                      name = $1,
+                      property_type = $2,
+                      location = $3, 
+                      price_per_night = $4,
+                      description = $5
                       WHERE
-                      property_id=$6 RETURNING *`;
+                      property_id = $6 RETURNING *`;
   const values = [
     property_name,
     property_type,
