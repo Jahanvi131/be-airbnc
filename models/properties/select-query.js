@@ -3,10 +3,11 @@ exports.selectProperties = (options = {}) => {
   const values = [];
   let queryStr = `SELECT count(f.favourite_id) as popularity, p.property_id, name as property_name,
                       location, price_per_night::float,
-                      CONCAT(first_name, ' ', surname) AS host
+                      CONCAT(first_name, ' ', surname) AS host,
+                      (SELECT image_url as Image FROM images i where i.property_id = p.property_id Order by image_id limit 1) as Image
                       FROM properties p JOIN users u ON
                       p.host_id = u.user_id
-                      JOIN favourites f ON
+                      LEFT JOIN favourites f ON
                       p.property_id = f.property_id `;
 
   if (Object.keys(options).length > 0 && (maxprice || minprice || host))
@@ -58,7 +59,7 @@ exports.selectPropertyById = (property_id, user_id) => {
 
   queryStr += `FROM properties p JOIN
                       users u ON p.host_id = u.user_id
-                      JOIN favourites f ON
+                      LEFT JOIN favourites f ON
                       p.property_id = f.property_id
                       WHERE p.property_id = $1
                       GROUP BY p.property_id, host, host_avatar`;

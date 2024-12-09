@@ -38,6 +38,7 @@ describe("app", () => {
                 expect(p).toHaveProperty("location");
                 expect(p).toHaveProperty("price_per_night");
                 expect(p).toHaveProperty("host");
+                expect(p).toHaveProperty("image");
 
                 //should not include
                 expect(p).not.toHaveProperty("host_id");
