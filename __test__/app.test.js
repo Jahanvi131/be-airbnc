@@ -288,6 +288,7 @@ describe("app", () => {
               expect(property).toHaveProperty("favourite_count");
               expect(property.favourite_count).toBeGreaterThan(0);
 
+              expect(property).toHaveProperty("images");
               expect(property).not.toHaveProperty("host_id");
               expect(property).not.toHaveProperty("guest_id");
               expect(property).not.toHaveProperty("favourite_id");

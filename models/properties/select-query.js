@@ -47,7 +47,8 @@ exports.selectPropertyById = (property_id, user_id) => {
                       location, price_per_night::float, description, 
                       CONCAT(first_name, ' ', surname) AS host,
                       avatar AS host_avatar,
-                      count(f.favourite_id)::int AS favourite_count `;
+                      count(f.favourite_id)::int AS favourite_count,
+                      ARRAY_AGG(image_url) as Images `;
 
   if (user_id) {
     values.push(user_id);
@@ -59,6 +60,8 @@ exports.selectPropertyById = (property_id, user_id) => {
 
   queryStr += `FROM properties p JOIN
                       users u ON p.host_id = u.user_id
+                      JOIN images i ON
+                      p.property_id = i.property_id
                       LEFT JOIN favourites f ON
                       p.property_id = f.property_id
                       WHERE p.property_id = $1
