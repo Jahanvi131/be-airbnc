@@ -414,6 +414,22 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
+        test("400 - returns bad request for invalid type fields", () => {
+          const updateData = {
+            property_name: "property_test",
+            property_type: "studio",
+            location: "Cornwall, UK",
+            price_per_night: "invalid_price_per_night",
+            description: "desc",
+          };
+          return request(app)
+            .patch("/api/properties/10")
+            .send(updateData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
+            });
+        });
         test("404 - returns not found for invalid foreign key reference fields - property_type", () => {
           const updateData = {
             property_name: "1",
@@ -448,7 +464,7 @@ describe("app", () => {
         });
         test("404 - returns not found when the property does not exist", () => {
           return request(app)
-            .patch("/api/properties/1000")
+            .patch("/api/properties/99999")
             .expect(404)
             .then(({ body: { msg } }) => {
               expect(msg).toBe("property doesn't exist, no record updated.");
@@ -670,10 +686,6 @@ describe("app", () => {
       });
       describe("POST", () => {
         test("400 - returns bad request for missing fields", () => {
-          const postData = {
-            rating: 4,
-            comment: "test comment",
-          };
           return request(app)
             .post("/api/properties/1/reviews")
             .expect(400)
@@ -693,6 +705,20 @@ describe("app", () => {
             .expect(400)
             .then(({ body: { msg } }) => {
               expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid type fields", () => {
+          const postData = {
+            guest_id: "invalid_guestid",
+            rating: "invalid_rating",
+            cmt: "test comment",
+          };
+          return request(app)
+            .post("/api/properties/1/reviews")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
             });
         });
         test("404 - returns not found  for invalid foreign key reference fields - guest_id", () => {
