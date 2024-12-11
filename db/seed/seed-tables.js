@@ -11,6 +11,7 @@ const {
   formatFavourites,
   formatReviews,
   formatimages,
+  formatBookings,
 } = require("../seed/util");
 
 exports.seedPropertyTypes = async (propertyTypes) => {
@@ -68,6 +69,7 @@ exports.seedImages = async (images, properties) => {
     )
   );
 };
+
 exports.seedfavourites = async (favourites, users, properties) => {
   const newUsers = combineNames(users);
   const usersRef = createRef("host_name", "user_id", newUsers);
@@ -106,6 +108,27 @@ exports.seedReviews = async (reviews, users, properties) => {
       `INSERT INTO reviews
        (property_id, guest_id, rating, comment) VALUES %L RETURNING *`,
       formatReviews(reviewsData)
+    )
+  );
+};
+
+exports.seedBookings = async (bookings, users, properties) => {
+  const newUsers = combineNames(users);
+  const usersRef = createRef("host_name", "user_id", newUsers);
+  const propertiesRef = createRef("name", "property_id", properties);
+
+  const bookingsData = formatDatas(
+    [usersRef, propertiesRef],
+    ["guest_name", "property_name"],
+    ["guest_id", "property_id"],
+    bookings
+  );
+
+  return db.query(
+    format(
+      `INSERT INTO bookings
+       (property_id, guest_id, check_in_date, check_out_date) VALUES %L RETURNING *`,
+      formatBookings(bookingsData)
     )
   );
 };

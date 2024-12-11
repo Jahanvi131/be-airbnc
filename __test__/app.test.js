@@ -462,20 +462,6 @@ describe("app", () => {
     });
     describe("SAD PATH", () => {
       describe("POST", () => {
-        test("405 - method not allowed [patch or put] for favourite", () => {
-          const invalidMethods = ["patch", "put"];
-
-          return Promise.all(
-            invalidMethods.map((method) => {
-              return request(app)
-                [method]("/api/properties/1/favourite")
-                .expect(405)
-                .then(({ body: { msg } }) => {
-                  expect(msg).toBe("Method not allowed.");
-                });
-            })
-          );
-        });
         test("400 - returns bad request for missing fields", () => {
           return request(app)
             .post("/api/properties/1/favourite")
@@ -544,6 +530,20 @@ describe("app", () => {
       });
     });
     describe("SAD PATH", () => {
+      test("405 - method not allowed [patch or put] for favourite", () => {
+        const invalidMethods = ["patch", "put"];
+
+        return Promise.all(
+          invalidMethods.map((method) => {
+            return request(app)
+              [method]("/api/favourites/1")
+              .expect(405)
+              .then(({ body: { msg } }) => {
+                expect(msg).toBe("Method not allowed.");
+              });
+          })
+        );
+      });
       describe("DELETE", () => {
         test("400 - returns bad request for invalid id", () => {
           return request(app)
@@ -640,20 +640,6 @@ describe("app", () => {
         });
       });
       describe("POST", () => {
-        test("405 - method not allowed [patch or put] for review", () => {
-          const invalidMethods = ["patch", "put"];
-
-          return Promise.all(
-            invalidMethods.map((method) => {
-              return request(app)
-                [method]("/api/properties/1/reviews")
-                .expect(405)
-                .then(({ body: { msg } }) => {
-                  expect(msg).toBe("Method not allowed.");
-                });
-            })
-          );
-        });
         test("400 - returns bad request for missing fields", () => {
           const postData = {
             rating: 4,
@@ -734,6 +720,20 @@ describe("app", () => {
       });
     });
     describe("SAD PATH", () => {
+      test("405 - method not allowed [patch or put] for review", () => {
+        const invalidMethods = ["patch", "put"];
+
+        return Promise.all(
+          invalidMethods.map((method) => {
+            return request(app)
+              [method]("/api/reviews/1")
+              .expect(405)
+              .then(({ body: { msg } }) => {
+                expect(msg).toBe("Method not allowed.");
+              });
+          })
+        );
+      });
       describe("DELETE", () => {
         test("400 - returns bad request for invalid id", () => {
           return request(app)
@@ -808,6 +808,20 @@ describe("app", () => {
       });
     });
     describe("SAD PATH", () => {
+      test("405 - method not allowed [delete] for user", () => {
+        const invalidMethods = ["delete"];
+
+        return Promise.all(
+          invalidMethods.map((method) => {
+            return request(app)
+              [method]("/api/users/1")
+              .expect(405)
+              .then(({ body: { msg } }) => {
+                expect(msg).toBe("Method not allowed.");
+              });
+          })
+        );
+      });
       describe("GET", () => {
         test("400 - returns bad request for invalid id", () => {
           return request(app)

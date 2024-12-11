@@ -96,3 +96,14 @@ exports.formatimages = (images) => {
     alt_tag,
   ]);
 };
+
+exports.formatBookings = (bookings) => {
+  return bookings.map(
+    ({ property_id, guest_id, check_in_date, check_out_date }) => [
+      property_id,
+      guest_id,
+      check_in_date,
+      check_out_date,
+    ]
+  );
+};

@@ -9,11 +9,7 @@ const {
   handleMethodNotAllowed,
 } = require("../server/error/set-error-response");
 
-reviewsRouter
-  .route("/reviews")
-  .get(getReviews)
-  .post(postReview)
-  .all(handleMethodNotAllowed);
+reviewsRouter.route("/").get(getReviews).post(postReview);
 
-reviewsRouter.route("/:id").delete(deleteReview);
+reviewsRouter.route("/:id").delete(deleteReview).all(handleMethodNotAllowed);
 module.exports = reviewsRouter;

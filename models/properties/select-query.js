@@ -48,7 +48,7 @@ exports.selectPropertyById = (property_id, user_id) => {
                       CONCAT(first_name, ' ', surname) AS host,
                       avatar AS host_avatar,
                       count(f.favourite_id)::int AS favourite_count,
-                      ARRAY_AGG(image_url) as Images `;
+                      (SELECT ARRAY_AGG(image_url) as Image FROM images i where i.property_id = $1) as Images `;
 
   if (user_id) {
     values.push(user_id);
@@ -60,9 +60,7 @@ exports.selectPropertyById = (property_id, user_id) => {
 
   queryStr += `FROM properties p JOIN
                       users u ON p.host_id = u.user_id
-                      JOIN images i ON
-                      p.property_id = i.property_id
-                      LEFT JOIN favourites f ON
+                      JOIN favourites f ON
                       p.property_id = f.property_id
                       WHERE p.property_id = $1
                       GROUP BY p.property_id, host, host_avatar`;
