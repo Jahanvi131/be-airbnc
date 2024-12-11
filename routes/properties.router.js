@@ -2,6 +2,7 @@ const express = require("express");
 const propertiesRouter = express.Router();
 const favouritesRouter = require("../routes/favourites.router");
 const reviewsRouter = require("../routes/reviews.router");
+const bookingRouter = require("../routes/booking.router");
 
 const {
   getProperties,
@@ -14,6 +15,8 @@ const {
 propertiesRouter.use("/:id/favourite", favouritesRouter);
 
 propertiesRouter.use("/:id/reviews", reviewsRouter);
+
+propertiesRouter.use("/:id/booking", bookingRouter);
 
 propertiesRouter.route("/").get(getProperties).post(postProperty);
 

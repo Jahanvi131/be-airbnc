@@ -208,11 +208,11 @@ describe("app", () => {
         test("400 - returns bad request for invalid fields", () => {
           const postData = {
             property_name: "test",
-            property_type: "Studio",
-            location: "Cornwall, UK",
-            price_per_night: 95.0,
-            description: "Description of Seaside Studio Getaway.",
-            host_id: 1,
+            propertytype: "Studio",
+            loc: "Cornwall, UK",
+            pricepernight: 95.0,
+            desc: "Description of Seaside Studio Getaway.",
+            hostid: 1,
           };
           return request(app)
             .post("/api/properties")
@@ -224,19 +224,36 @@ describe("app", () => {
         });
         test("400 - returns bad request for invalid type fields", () => {
           const postData = {
-            property_name: 1,
+            name: "test property",
             property_type: "Studio",
             location: "Cornwall, UK",
-            price_per_night: 95.0,
+            price_per_night: "invalid_price_per_night",
             description: "Description of Seaside Studio Getaway.",
-            host_id: "1",
+            host_id: "invalid_hostid",
           };
           return request(app)
             .post("/api/properties")
             .send(postData)
             .expect(400)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad request.");
+              expect(msg).toBe("Invalid input type.");
+            });
+        });
+        test("404 - returns not found for in-existent foreign key - property_type", () => {
+          const postData = {
+            name: "test property",
+            property_type: "Studio11",
+            location: "Cornwall, UK",
+            price_per_night: 95.0,
+            description: "Description of Seaside Studio Getaway.",
+            host_id: 1,
+          };
+          return request(app)
+            .post("/api/properties")
+            .send(postData)
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("foreign key reference not found.");
             });
         });
         test("404 - returns not found for in-existent foreign key - host id", () => {
@@ -480,6 +497,18 @@ describe("app", () => {
             .expect(400)
             .then(({ body: { msg } }) => {
               expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid type fields", () => {
+          const postData = {
+            guest_id: "invalid_guestid",
+          };
+          return request(app)
+            .post("/api/properties/1/favourite")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
             });
         });
         test("404 - returns not found  for invalid foreign key reference fields - guest_id", () => {
@@ -928,6 +957,113 @@ describe("app", () => {
             .expect(400)
             .then(({ body: { msg } }) => {
               expect(msg).toBe("Bad request.");
+            });
+        });
+      });
+    });
+  });
+  describe("/api/properties/:id/booking", () => {
+    describe("HAPPY PATH", () => {
+      describe("POST", () => {
+        test("201 - response with recently created booking for property", () => {
+          const postData = {
+            guest_id: 2,
+            check_in_date: "2025-12-01",
+            check_out_date: "2025-12-05",
+          };
+          return request(app)
+            .post("/api/properties/1/booking")
+            .send(postData)
+            .expect(201)
+            .then(({ body: { booking } }) => {
+              expect(booking).toHaveProperty("booking_id", 11);
+              expect(booking).toHaveProperty("msg", "Booking successful");
+            });
+        });
+      });
+    });
+    describe("SAD PATH", () => {
+      describe("POST", () => {
+        test("400 - returns bad request for missing fields", () => {
+          const postData = {
+            guest_id: 2,
+          };
+          return request(app)
+            .post("/api/properties/1/booking")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields", () => {
+          const postData = {
+            guestid: 2,
+            checkindate: "2025-12-01",
+            checkoutdate: "2025-12-05",
+          };
+          return request(app)
+            .post("/api/properties/1/booking")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid type fields", () => {
+          const postData = {
+            guest_id: "invalid_guestid",
+            check_in_date: "invalid_check_in_date",
+            check_out_date: "invalid_check_out_date",
+          };
+          return request(app)
+            .post("/api/properties/1/booking")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
+            });
+        });
+        test("400 - returns bad request for invalid id", () => {
+          const postData = {
+            guest_id: 2,
+            check_in_date: "2025-12-01",
+            check_out_date: "2025-12-05",
+          };
+          return request(app)
+            .post("/api/properties/invalid_id/booking")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
+            });
+        });
+        test("404 - returns not found  for invalid foreign key reference fields - guest_id", () => {
+          const postData = {
+            guest_id: 99999,
+            check_in_date: "2025-12-01",
+            check_out_date: "2025-12-05",
+          };
+          return request(app)
+            .post("/api/properties/1/booking")
+            .send(postData)
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("foreign key reference not found.");
+            });
+        });
+        test("404 - returns not found  for invalid foreign key reference fields - property_id", () => {
+          const postData = {
+            guest_id: 2,
+            check_in_date: "2025-12-01",
+            check_out_date: "2025-12-05",
+          };
+          return request(app)
+            .post("/api/properties/99999/booking")
+            .send(postData)
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("foreign key reference not found.");
             });
         });
       });
