@@ -8,7 +8,6 @@ exports.handleMethodNotAllowed = (req, res) => {
 
 exports.handleNoRecordFoundErrors = (err, req, res, next) => {
   if (err.code === "23503") {
-    // when foreign key reference not found
     res.status(404).send({ msg: "foreign key reference not found." });
   } else {
     next(err);

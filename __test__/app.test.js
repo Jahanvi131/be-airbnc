@@ -192,9 +192,12 @@ describe("app", () => {
         });
       });
       describe("POST", () => {
-        test("400 - returns bad request for missing fields", () => {
+        test("400 - returns bad request for missing fields - name", () => {
           const postData = {
             property_type: "Studio",
+            location: "Cornwall, UK",
+            price_per_night: 95.0,
+            description: "Description of Seaside Studio Getaway.",
             host_id: 1,
           };
           return request(app)
@@ -205,13 +208,162 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields", () => {
+        test("400 - returns bad request for missing fields - property_type", () => {
+          const postData = {
+            name: "test property",
+            location: "Cornwall, UK",
+            price_per_night: 95.0,
+            description: "Description of Seaside Studio Getaway.",
+            host_id: 1,
+          };
+          return request(app)
+            .post("/api/properties")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for missing fields - location", () => {
+          const postData = {
+            name: "test property",
+            property_type: "Studio",
+            price_per_night: 95.0,
+            description: "Description of Seaside Studio Getaway.",
+            host_id: 1,
+          };
+          return request(app)
+            .post("/api/properties")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for missing fields - price_per_night", () => {
+          const postData = {
+            name: "test property",
+            property_type: "Studio",
+            location: "Cornwall, UK",
+            description: "Description of Seaside Studio Getaway.",
+            host_id: 1,
+          };
+          return request(app)
+            .post("/api/properties")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for missing fields - host_id", () => {
+          const postData = {
+            name: "test property",
+            property_type: "Studio",
+            location: "Cornwall, UK",
+            price_per_night: 95.0,
+            description: "Description of Seaside Studio Getaway.",
+          };
+          return request(app)
+            .post("/api/properties")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - name", () => {
           const postData = {
             property_name: "test",
+            property_type: "Studio",
+            location: "Cornwall, UK",
+            price_per_night: 95.0,
+            description: "Description of Seaside Studio Getaway.",
+            host_id: 1,
+          };
+          return request(app)
+            .post("/api/properties")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - property_type", () => {
+          const postData = {
+            name: "test",
             propertytype: "Studio",
+            location: "Cornwall, UK",
+            price_per_night: 95.0,
+            description: "Description of Seaside Studio Getaway.",
+            host_id: 1,
+          };
+          return request(app)
+            .post("/api/properties")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - location", () => {
+          const postData = {
+            name: "test",
+            property_type: "Studio",
             loc: "Cornwall, UK",
+            price_per_night: 95.0,
+            description: "Description of Seaside Studio Getaway.",
+            host_id: 1,
+          };
+          return request(app)
+            .post("/api/properties")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - price_per_night", () => {
+          const postData = {
+            name: "test",
+            property_type: "Studio",
+            location: "Cornwall, UK",
+            pricepernight: 95.0,
+            description: "Description of Seaside Studio Getaway.",
+            host_id: 1,
+          };
+          return request(app)
+            .post("/api/properties")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - description", () => {
+          const postData = {
+            name: "test",
+            property_type: "Studio",
+            location: "Cornwall, UK",
             pricepernight: 95.0,
             desc: "Description of Seaside Studio Getaway.",
+            host_id: 1,
+          };
+          return request(app)
+            .post("/api/properties")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - host_id", () => {
+          const postData = {
+            name: "test",
+            property_type: "Studio",
+            location: "Cornwall, UK",
+            price_per_night: 95.0,
+            description: "Description of Seaside Studio Getaway.",
             hostid: 1,
           };
           return request(app)
@@ -222,7 +374,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid type fields", () => {
+        test("400 - returns bad request for invalid type fields - host_id", () => {
           const postData = {
             name: "test property",
             property_type: "Studio",
@@ -398,12 +550,76 @@ describe("app", () => {
         });
       });
       describe("PATCH", () => {
-        test("400 - returns bad request for invalid fields", () => {
+        test("400 - returns bad request for invalid fields - name", () => {
           const updateData = {
             propertyname: "test",
+            property_type: "Studio",
+            location: "Cornwall, UK",
+            price_per_night: 95.0,
+            description: "Description of Seaside Studio Getaway.",
+          };
+          return request(app)
+            .patch("/api/properties/10")
+            .send(updateData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - property_type", () => {
+          const updateData = {
+            name: "test",
             propertytype: "Studio",
             location: "Cornwall, UK",
+            price_per_night: 95.0,
+            description: "Description of Seaside Studio Getaway.",
+          };
+          return request(app)
+            .patch("/api/properties/10")
+            .send(updateData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - location", () => {
+          const updateData = {
+            name: "test",
+            property_type: "Studio",
+            loc: "Cornwall, UK",
+            price_per_night: 95.0,
+            description: "Description of Seaside Studio Getaway.",
+          };
+          return request(app)
+            .patch("/api/properties/10")
+            .send(updateData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - price_per_night", () => {
+          const updateData = {
+            name: "test",
+            property_type: "Studio",
+            location: "Cornwall, UK",
             pricepernight: 95.0,
+            description: "Description of Seaside Studio Getaway.",
+          };
+          return request(app)
+            .patch("/api/properties/10")
+            .send(updateData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - description", () => {
+          const updateData = {
+            name: "test",
+            property_type: "Studio",
+            location: "Cornwall, UK",
+            price_per_night: 95.0,
             desc: "Description of Seaside Studio Getaway.",
           };
           return request(app)
@@ -414,7 +630,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid type fields", () => {
+        test("400 - returns bad request for invalid type fields - price_per_night", () => {
           const updateData = {
             property_name: "property_test",
             property_type: "studio",
@@ -495,7 +711,7 @@ describe("app", () => {
     });
     describe("SAD PATH", () => {
       describe("POST", () => {
-        test("400 - returns bad request for missing fields", () => {
+        test("400 - returns bad request for missing fields - guest_id", () => {
           return request(app)
             .post("/api/properties/1/favourite")
             .expect(400)
@@ -503,7 +719,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields", () => {
+        test("400 - returns bad request for invalid fields - guest_id", () => {
           const postData = {
             guestid: 1,
           };
@@ -515,7 +731,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid type fields", () => {
+        test("400 - returns bad request for invalid type fields - guest_id", () => {
           const postData = {
             guest_id: "invalid_guestid",
           };
@@ -685,19 +901,10 @@ describe("app", () => {
         });
       });
       describe("POST", () => {
-        test("400 - returns bad request for missing fields", () => {
-          return request(app)
-            .post("/api/properties/1/reviews")
-            .expect(400)
-            .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad request.");
-            });
-        });
-        test("400 - returns bad request for invalid fields", () => {
+        test("400 - returns bad request for missing fields - guest_id", () => {
           const postData = {
-            guestid: 1,
-            rat: 4,
-            cmt: "test comment",
+            rating: 4,
+            comment: "test comment",
           };
           return request(app)
             .post("/api/properties/1/reviews")
@@ -707,11 +914,66 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid type fields", () => {
+        test("400 - returns bad request for missing fields - rating", () => {
+          const postData = {
+            guest_id: 1,
+            comment: "test comment",
+          };
+          return request(app)
+            .post("/api/properties/1/reviews")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - guest_id", () => {
+          const postData = {
+            guestid: 1,
+            rating: 4,
+            comment: "test comment",
+          };
+          return request(app)
+            .post("/api/properties/1/reviews")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - rating", () => {
+          const postData = {
+            guest_id: 1,
+            rat: 4,
+            comment: "test comment",
+          };
+          return request(app)
+            .post("/api/properties/1/reviews")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid type fields - guest_id", () => {
           const postData = {
             guest_id: "invalid_guestid",
+            rating: 4,
+            comment: "test comment",
+          };
+          return request(app)
+            .post("/api/properties/1/reviews")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
+            });
+        });
+        test("400 - returns bad request for invalid type fields - rating", () => {
+          const postData = {
+            guest_id: 1,
             rating: "invalid_rating",
-            cmt: "test comment",
+            comment: "test comment",
           };
           return request(app)
             .post("/api/properties/1/reviews")
@@ -958,8 +1220,14 @@ describe("app", () => {
     });
     describe("SAD PATH", () => {
       describe("POST", () => {
-        test("400 - returns bad request for missing fields", () => {
-          const postData = {};
+        test("400 - returns bad request for missing fields - first_name", () => {
+          const postData = {
+            surname: "Johnsontest",
+            email: "alice@exampletest.com",
+            phone: "+44 7000 111122",
+            role: "host",
+            avatar: "https://example.com/images/bob.jpg",
+          };
           return request(app)
             .post("/api/users")
             .send(postData)
@@ -968,14 +1236,80 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields", () => {
+        test("400 - returns bad request for missing fields - surname", () => {
+          const postData = {
+            first_name: "Alicetest",
+            email: "alice@exampletest.com",
+            phone: "+44 7000 111122",
+            role: "host",
+            avatar: "https://example.com/images/bob.jpg",
+          };
+          return request(app)
+            .post("/api/users")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for missing fields - email", () => {
+          const postData = {
+            first_name: "Alicetest",
+            surname: "Johnsontest",
+            phone: "+44 7000 111122",
+            role: "host",
+            avatar: "https://example.com/images/bob.jpg",
+          };
+          return request(app)
+            .post("/api/users")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - first_name", () => {
           const postData = {
             firstname: "Alicetest",
-            surrrname: "Johnsontest",
-            emaills: "alice@exampletest.com",
-            phones: "+44 7000 111122",
-            role_r: "host",
-            avatars: "https://example.com/images/bob.jpg",
+            surname: "Johnsontest",
+            email: "alice@exampletest.com",
+            phone: "+44 7000 111122",
+            role: "host",
+            avatar: "https://example.com/images/bob.jpg",
+          };
+          return request(app)
+            .post("/api/users")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - surname", () => {
+          const postData = {
+            first_name: "Alicetest",
+            surrrrname: "Johnsontest",
+            email: "alice@exampletest.com",
+            phone: "+44 7000 111122",
+            role: "host",
+            avatar: "https://example.com/images/bob.jpg",
+          };
+          return request(app)
+            .post("/api/users")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - email", () => {
+          const postData = {
+            first_name: "Alicetest",
+            surname: "Johnsontest",
+            emaillss: "alice@exampletest.com",
+            phone: "+44 7000 111122",
+            role: "host",
+            avatar: "https://example.com/images/bob.jpg",
           };
           return request(app)
             .post("/api/users")
@@ -1010,9 +1344,10 @@ describe("app", () => {
     });
     describe("SAD PATH", () => {
       describe("POST", () => {
-        test("400 - returns bad request for missing fields", () => {
+        test("400 - returns bad request for missing fields - guest_id", () => {
           const postData = {
-            guest_id: 2,
+            check_in_date: "2025-12-01",
+            check_out_date: "2025-12-05",
           };
           return request(app)
             .post("/api/properties/1/booking")
@@ -1022,10 +1357,64 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields", () => {
+        test("400 - returns bad request for missing fields - check_in_date", () => {
+          const postData = {
+            guest_id: 1,
+            check_out_date: "2025-12-05",
+          };
+          return request(app)
+            .post("/api/properties/1/booking")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for missing fields - check_out_date", () => {
+          const postData = {
+            guest_id: 1,
+            check_in_date: "2025-12-01",
+          };
+          return request(app)
+            .post("/api/properties/1/booking")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - guest_id", () => {
           const postData = {
             guestid: 2,
+            check_in_date: "2025-12-01",
+            check_out_date: "2025-12-05",
+          };
+          return request(app)
+            .post("/api/properties/1/booking")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - check_in_date", () => {
+          const postData = {
+            guest_id: 2,
             checkindate: "2025-12-01",
+            check_out_date: "2025-12-05",
+          };
+          return request(app)
+            .post("/api/properties/1/booking")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Bad request.");
+            });
+        });
+        test("400 - returns bad request for invalid fields - check_out_date", () => {
+          const postData = {
+            guest_id: 2,
+            check_in_date: "2025-12-01",
             checkoutdate: "2025-12-05",
           };
           return request(app)
@@ -1036,11 +1425,11 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid type fields", () => {
+        test("400 - returns bad request for invalid type fields - guest_id", () => {
           const postData = {
             guest_id: "invalid_guestid",
-            check_in_date: "invalid_check_in_date",
-            check_out_date: "invalid_check_out_date",
+            check_in_date: "2025-12-01",
+            check_out_date: "2025-12-05",
           };
           return request(app)
             .post("/api/properties/1/booking")
@@ -1048,6 +1437,34 @@ describe("app", () => {
             .expect(400)
             .then(({ body: { msg } }) => {
               expect(msg).toBe("Invalid input type.");
+            });
+        });
+        test("400 - returns bad request for invalid type fields - check_in_date", () => {
+          const postData = {
+            guest_id: 1,
+            check_in_date: "invalid_check_in_date",
+            check_out_date: "2025-12-05",
+          };
+          return request(app)
+            .post("/api/properties/1/booking")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid date format.");
+            });
+        });
+        test("400 - returns bad request for invalid type fields - check_out_date", () => {
+          const postData = {
+            guest_id: 1,
+            check_in_date: "2025-12-0",
+            check_out_date: "invalid_check_out_date",
+          };
+          return request(app)
+            .post("/api/properties/1/booking")
+            .send(postData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid date format.");
             });
         });
         test("400 - returns bad request for invalid id", () => {
