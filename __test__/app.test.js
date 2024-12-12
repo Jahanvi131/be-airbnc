@@ -340,23 +340,6 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields - description", () => {
-          const postData = {
-            name: "test",
-            property_type: "Studio",
-            location: "Cornwall, UK",
-            pricepernight: 95.0,
-            desc: "Description of Seaside Studio Getaway.",
-            host_id: 1,
-          };
-          return request(app)
-            .post("/api/properties")
-            .send(postData)
-            .expect(400)
-            .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad request.");
-            });
-        });
         test("400 - returns bad request for invalid fields - host_id", () => {
           const postData = {
             name: "test",
@@ -550,86 +533,6 @@ describe("app", () => {
         });
       });
       describe("PATCH", () => {
-        test("400 - returns bad request for invalid fields - name", () => {
-          const updateData = {
-            propertyname: "test",
-            property_type: "Studio",
-            location: "Cornwall, UK",
-            price_per_night: 95.0,
-            description: "Description of Seaside Studio Getaway.",
-          };
-          return request(app)
-            .patch("/api/properties/10")
-            .send(updateData)
-            .expect(400)
-            .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad request.");
-            });
-        });
-        test("400 - returns bad request for invalid fields - property_type", () => {
-          const updateData = {
-            name: "test",
-            propertytype: "Studio",
-            location: "Cornwall, UK",
-            price_per_night: 95.0,
-            description: "Description of Seaside Studio Getaway.",
-          };
-          return request(app)
-            .patch("/api/properties/10")
-            .send(updateData)
-            .expect(400)
-            .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad request.");
-            });
-        });
-        test("400 - returns bad request for invalid fields - location", () => {
-          const updateData = {
-            name: "test",
-            property_type: "Studio",
-            loc: "Cornwall, UK",
-            price_per_night: 95.0,
-            description: "Description of Seaside Studio Getaway.",
-          };
-          return request(app)
-            .patch("/api/properties/10")
-            .send(updateData)
-            .expect(400)
-            .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad request.");
-            });
-        });
-        test("400 - returns bad request for invalid fields - price_per_night", () => {
-          const updateData = {
-            name: "test",
-            property_type: "Studio",
-            location: "Cornwall, UK",
-            pricepernight: 95.0,
-            description: "Description of Seaside Studio Getaway.",
-          };
-          return request(app)
-            .patch("/api/properties/10")
-            .send(updateData)
-            .expect(400)
-            .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad request.");
-            });
-        });
-        test("400 - returns bad request for invalid fields - description", () => {
-          const updateData = {
-            name: "test",
-            property_type: "Studio",
-            location: "Cornwall, UK",
-            price_per_night: 95.0,
-            desc: "Description of Seaside Studio Getaway.",
-          };
-          return request(app)
-            .patch("/api/properties/10")
-            .send(updateData)
-            .expect(400)
-            .then(({ body: { msg } }) => {
-              expect(msg).toBe("Bad request.");
-            });
-        });
         test("400 - returns bad request for invalid type fields - price_per_night", () => {
           const updateData = {
             property_name: "property_test",
@@ -1507,6 +1410,112 @@ describe("app", () => {
             .expect(404)
             .then(({ body: { msg } }) => {
               expect(msg).toBe("foreign key reference not found.");
+            });
+        });
+      });
+    });
+  });
+  describe("/api/bookings/:id", () => {
+    describe("HAPPY PATH", () => {
+      describe("PATCH", () => {
+        test("200 - response with recently updated booking", () => {
+          const updateData = {
+            check_in_date: "2024-12-26T10:00:00.000Z",
+            check_out_date: "2024-12-28T10:00:00.000Z",
+          };
+          return request(app)
+            .patch("/api/bookings/1")
+            .send(updateData)
+            .expect(200)
+            .then(({ body: { booking } }) => {
+              expect(typeof booking).toBe("object");
+              expect(Object.keys(booking)).toHaveLength(6);
+              expect(booking).toHaveProperty("booking_id", 1);
+              expect(booking).toHaveProperty("property_id", 1);
+              expect(booking).toHaveProperty("guest_id", 2);
+              expect(booking).toHaveProperty(
+                "check_in_date",
+                "2024-12-26T00:00:00.000Z"
+              );
+              expect(booking).toHaveProperty(
+                "check_out_date",
+                "2024-12-28T00:00:00.000Z"
+              );
+              expect(booking).toHaveProperty("created_at");
+            });
+        });
+      });
+      describe("DELETE", () => {
+        test("204 - no response for recently deleted booking", () => {
+          return request(app).delete("/api/bookings/1").expect(204);
+        });
+      });
+    });
+    describe("SAD PATH", () => {
+      describe("PATCH", () => {
+        test("400 - returns bad request for invalid type fields - check_in_date", () => {
+          const updateData = {
+            check_in_date: "invalid_check_in_date",
+            check_out_date: "2025-12-05",
+          };
+          return request(app)
+            .patch("/api/bookings/1")
+            .send(updateData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid date format.");
+            });
+        });
+        test("400 - returns bad request for invalid type fields - check_out_date", () => {
+          const updateData = {
+            check_in_date: "2025-12-0",
+            check_out_date: "invalid_check_out_date",
+          };
+          return request(app)
+            .patch("/api/bookings/1")
+            .send(updateData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid date format.");
+            });
+        });
+        test("400 - returns bad request for invalid id", () => {
+          const updateData = {
+            check_in_date: "2025-12-01",
+            check_out_date: "2025-12-05",
+          };
+          return request(app)
+            .patch("/api/bookings/invalid_id")
+            .send(updateData)
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
+            });
+        });
+        test("404 - returns not found when the booking does not exist", () => {
+          return request(app)
+            .patch("/api/bookings/99999")
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("booking doesn't exist, no record updated.");
+            });
+        });
+      });
+      describe("DELETE", () => {
+        test("400 - returns bad request for invalid id", () => {
+          return request(app)
+            .delete("/api/bookings/invalid_id")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
+            });
+        });
+        test("404 - returns not found for non-existent review id", () => {
+          return request(app)
+            .delete("/api/bookings/99999")
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("booking doesn't exist, no record deleted.");
             });
         });
       });

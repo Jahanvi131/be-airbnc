@@ -1,8 +1,14 @@
 const express = require("express");
-const { postBooking } = require("../controllers/bookingcontroller");
+const {
+  postBooking,
+  patchBooking,
+  deleteBooking,
+} = require("../controllers/bookingcontroller");
 
-const bookingRouter = express.Router({ mergeParams: true });
+const bookingsRouter = express.Router({ mergeParams: true });
 
-bookingRouter.route("/").post(postBooking);
+bookingsRouter.route("/").post(postBooking);
 
-module.exports = bookingRouter;
+bookingsRouter.route("/:id").patch(patchBooking).delete(deleteBooking);
+
+module.exports = bookingsRouter;
