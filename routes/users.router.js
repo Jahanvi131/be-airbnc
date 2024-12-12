@@ -7,10 +7,14 @@ const {
 const {
   handleMethodNotAllowed,
 } = require("../server/error/set-error-response");
+const bookingsRouter = require("../routes/booking.router");
 
 const usersRouter = express.Router();
 
+usersRouter.use("/:id/bookings", bookingsRouter);
+
 usersRouter.route("/").post(postUser);
+
 usersRouter
   .route("/:id")
   .get(getUserById)

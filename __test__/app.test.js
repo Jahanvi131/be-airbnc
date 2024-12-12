@@ -979,7 +979,7 @@ describe("app", () => {
   describe("/api/users/:id", () => {
     describe("HAPPY PATH", () => {
       describe("GET", () => {
-        test("200 - response with perticular user object", () => {
+        test("200 - response with specific user object", () => {
           return request(app)
             .get("/api/users/1")
             .expect(200)
@@ -1516,6 +1516,51 @@ describe("app", () => {
             .expect(404)
             .then(({ body: { msg } }) => {
               expect(msg).toBe("booking doesn't exist, no record deleted.");
+            });
+        });
+      });
+    });
+  });
+  describe("/api/users/:id/bookings", () => {
+    describe("HAPPY PATH", () => {
+      describe("GET", () => {
+        test("200 - response with all the bookings of specific user", () => {
+          return request(app)
+            .get("/api/users/2/bookings")
+            .expect(200)
+            .then(({ body: { bookings } }) => {
+              expect(Array.isArray(bookings)).toBe(true);
+              expect(bookings.length).toBeGreaterThan(0);
+              bookings.forEach((b) => {
+                expect(typeof b).toBe("object");
+                expect(b).toHaveProperty("booking_id");
+                expect(b).toHaveProperty("check_in_date");
+                expect(b).toHaveProperty("check_out_date");
+                expect(b).toHaveProperty("property_id");
+                expect(b).toHaveProperty("property_name");
+                expect(b).toHaveProperty("host");
+                expect(b).toHaveProperty("image");
+              });
+            });
+        });
+      });
+    });
+    describe("SAD PATH", () => {
+      describe("GET", () => {
+        test("400 - returns bad request for invalid id", () => {
+          return request(app)
+            .get("/api/users/invalid_id/bookings")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
+            });
+        });
+        test("404 - returns not found for non-existent user_id", () => {
+          return request(app)
+            .get("/api/users/99999/bookings")
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("No record found.");
             });
         });
       });
