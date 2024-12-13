@@ -16,7 +16,7 @@ propertiesRouter.use("/:id/favourite", favouritesRouter);
 
 propertiesRouter.use("/:id/reviews", reviewsRouter);
 
-propertiesRouter.use("/:id/booking", bookingsRouter);
+propertiesRouter.use("/:id/bookings", bookingsRouter);
 
 propertiesRouter.route("/").get(getProperties).post(postProperty);
 

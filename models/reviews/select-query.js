@@ -26,12 +26,12 @@ exports.selectReviews = ` WITH CheckProperty AS (
                           CASE 
                             WHEN EXISTS (SELECT * FROM CheckProperty) THEN 
                               json_build_object(
-                                'reviews', json_agg(ROW_TO_JSON(ReviewData)),
+                                'reviews', COALESCE(json_agg(ROW_TO_JSON(ReviewData)), '[]'::json),
                                 'average_rating', (SELECT AVG(rating)::float FROM reviews WHERE property_id = $1)
                               )
                             ELSE 
                             json_build_object(
-                              'property-id','non-exist'
+                              'error-msg','No record found.'
                             )
                           END AS result
                         FROM ReviewData;`;

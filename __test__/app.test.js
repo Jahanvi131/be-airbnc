@@ -1225,7 +1225,7 @@ describe("app", () => {
       });
     });
   });
-  describe("/api/properties/:id/booking", () => {
+  describe("/api/properties/:id/bookings", () => {
     describe("HAPPY PATH", () => {
       describe("POST", () => {
         test("201 - response with recently created booking for property", () => {
@@ -1235,13 +1235,38 @@ describe("app", () => {
             check_out_date: "2025-12-05",
           };
           return request(app)
-            .post("/api/properties/1/booking")
+            .post("/api/properties/1/bookings")
             .send(postData)
             .expect(201)
             .then(({ body: { booking } }) => {
               expect(booking).toHaveProperty("booking_id", 11);
               expect(booking).toHaveProperty("msg", "Booking successful");
             });
+        });
+      });
+      describe("GET", () => {
+        test("200 - response with all the bookings of specific property", () => {
+          return request(app)
+            .get("/api/properties/1/bookings")
+            .expect(200)
+            .then(({ body }) => {
+              const { bookings } = body;
+              expect(Array.isArray(bookings)).toBe(true);
+              expect(bookings.length).toBeGreaterThan(0);
+              bookings.forEach((b) => {
+                expect(typeof b).toBe("object");
+                expect(b).toHaveProperty("booking_id");
+                expect(b).toHaveProperty("check_in_date");
+                expect(b).toHaveProperty("check_out_date");
+                expect(b).toHaveProperty("created_at");
+
+                expect(b).not.toHaveProperty("property_id");
+                expect(b).not.toHaveProperty("guest_id");
+              });
+            });
+        });
+        test("200 - empty response for the no bookings of specific property", () => {
+          return request(app).get("/api/properties/12/bookings").expect(200);
         });
       });
     });
@@ -1253,7 +1278,7 @@ describe("app", () => {
             check_out_date: "2025-12-05",
           };
           return request(app)
-            .post("/api/properties/1/booking")
+            .post("/api/properties/1/bookings")
             .send(postData)
             .expect(400)
             .then(({ body: { msg } }) => {
@@ -1266,7 +1291,7 @@ describe("app", () => {
             check_out_date: "2025-12-05",
           };
           return request(app)
-            .post("/api/properties/1/booking")
+            .post("/api/properties/1/bookings")
             .send(postData)
             .expect(400)
             .then(({ body: { msg } }) => {
@@ -1279,7 +1304,7 @@ describe("app", () => {
             check_in_date: "2025-12-01",
           };
           return request(app)
-            .post("/api/properties/1/booking")
+            .post("/api/properties/1/bookings")
             .send(postData)
             .expect(400)
             .then(({ body: { msg } }) => {
@@ -1293,7 +1318,7 @@ describe("app", () => {
             check_out_date: "2025-12-05",
           };
           return request(app)
-            .post("/api/properties/1/booking")
+            .post("/api/properties/1/bookings")
             .send(postData)
             .expect(400)
             .then(({ body: { msg } }) => {
@@ -1307,7 +1332,7 @@ describe("app", () => {
             check_out_date: "2025-12-05",
           };
           return request(app)
-            .post("/api/properties/1/booking")
+            .post("/api/properties/1/bookings")
             .send(postData)
             .expect(400)
             .then(({ body: { msg } }) => {
@@ -1321,7 +1346,7 @@ describe("app", () => {
             checkoutdate: "2025-12-05",
           };
           return request(app)
-            .post("/api/properties/1/booking")
+            .post("/api/properties/1/bookings")
             .send(postData)
             .expect(400)
             .then(({ body: { msg } }) => {
@@ -1335,7 +1360,7 @@ describe("app", () => {
             check_out_date: "2025-12-05",
           };
           return request(app)
-            .post("/api/properties/1/booking")
+            .post("/api/properties/1/bookings")
             .send(postData)
             .expect(400)
             .then(({ body: { msg } }) => {
@@ -1349,7 +1374,7 @@ describe("app", () => {
             check_out_date: "2025-12-05",
           };
           return request(app)
-            .post("/api/properties/1/booking")
+            .post("/api/properties/1/bookings")
             .send(postData)
             .expect(400)
             .then(({ body: { msg } }) => {
@@ -1363,7 +1388,7 @@ describe("app", () => {
             check_out_date: "invalid_check_out_date",
           };
           return request(app)
-            .post("/api/properties/1/booking")
+            .post("/api/properties/1/bookings")
             .send(postData)
             .expect(400)
             .then(({ body: { msg } }) => {
@@ -1377,7 +1402,7 @@ describe("app", () => {
             check_out_date: "2025-12-05",
           };
           return request(app)
-            .post("/api/properties/invalid_id/booking")
+            .post("/api/properties/invalid_id/bookings")
             .send(postData)
             .expect(400)
             .then(({ body: { msg } }) => {
@@ -1391,7 +1416,7 @@ describe("app", () => {
             check_out_date: "2025-12-05",
           };
           return request(app)
-            .post("/api/properties/1/booking")
+            .post("/api/properties/1/bookings")
             .send(postData)
             .expect(404)
             .then(({ body: { msg } }) => {
@@ -1405,11 +1430,29 @@ describe("app", () => {
             check_out_date: "2025-12-05",
           };
           return request(app)
-            .post("/api/properties/99999/booking")
+            .post("/api/properties/99999/bookings")
             .send(postData)
             .expect(404)
             .then(({ body: { msg } }) => {
               expect(msg).toBe("foreign key reference not found.");
+            });
+        });
+      });
+      describe("GET", () => {
+        test("400 - returns bad request for invalid id", () => {
+          return request(app)
+            .get("/api/properties/invalid_id/bookings")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
+            });
+        });
+        test("404 - returns not found for non-existent property_id", () => {
+          return request(app)
+            .get("/api/properties/99999/bookings")
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("No bookings yet.");
             });
         });
       });
@@ -1543,6 +1586,9 @@ describe("app", () => {
               });
             });
         });
+        test("200 - empty response for no booking of specific user", () => {
+          return request(app).get("/api/users/1/bookings").expect(200);
+        });
       });
     });
     describe("SAD PATH", () => {
@@ -1560,7 +1606,7 @@ describe("app", () => {
             .get("/api/users/99999/bookings")
             .expect(404)
             .then(({ body: { msg } }) => {
-              expect(msg).toBe("No record found.");
+              expect(msg).toBe("No bookings found.");
             });
         });
       });

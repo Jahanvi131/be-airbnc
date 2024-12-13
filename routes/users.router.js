@@ -4,14 +4,12 @@ const {
   patchUser,
   postUser,
 } = require("../controllers/usercontroller");
+const { getUserBookings } = require("../controllers/bookingcontroller");
 const {
   handleMethodNotAllowed,
 } = require("../server/error/set-error-response");
-const bookingsRouter = require("../routes/booking.router");
 
 const usersRouter = express.Router();
-
-usersRouter.use("/:id/bookings", bookingsRouter);
 
 usersRouter.route("/").post(postUser);
 
@@ -20,5 +18,7 @@ usersRouter
   .get(getUserById)
   .patch(patchUser)
   .all(handleMethodNotAllowed);
+
+usersRouter.route("/:id/bookings").get(getUserBookings);
 
 module.exports = usersRouter;

@@ -1,6 +1,9 @@
 const db = require("../../db/connection");
 const { isValidDate } = require("../util");
-const { selectUserBookings } = require("../bookings/select-query");
+const {
+  selectUserBookings,
+  selectPropertyBookings,
+} = require("../bookings/select-query");
 
 exports.insertBooking = async (
   { guest_id, check_in_date, check_out_date },
@@ -66,11 +69,23 @@ exports.deleteBooking = async (booking_id) => {
 };
 
 exports.fetchUserBooking = async (guest_id) => {
-  const queryStr = selectUserBookings;
+  const {
+    rows: [{ result }],
+  } = await db.query(selectUserBookings, [guest_id]);
 
-  const { rows: bookings } = await db.query(queryStr, [guest_id]);
-  if (bookings.length === 0) {
-    return Promise.reject({ status: 404, msg: "No record found." });
+  if (result.hasOwnProperty(["error-msg"])) {
+    return Promise.reject({ status: 404, msg: result["error-msg"] });
   }
-  return bookings;
+  return result;
+};
+
+exports.fetchPropertyBooking = async (property_id) => {
+  const {
+    rows: [{ result }],
+  } = await db.query(selectPropertyBookings, [property_id]);
+
+  if (result.hasOwnProperty(["error-msg"])) {
+    return Promise.reject({ status: 404, msg: result["error-msg"] });
+  }
+  return result;
 };

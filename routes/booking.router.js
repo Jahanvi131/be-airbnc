@@ -3,12 +3,12 @@ const {
   postBooking,
   patchBooking,
   deleteBooking,
-  getUserBookings,
+  getPropertyBookings,
 } = require("../controllers/bookingcontroller");
 
 const bookingsRouter = express.Router({ mergeParams: true });
 
-bookingsRouter.route("/").post(postBooking).get(getUserBookings);
+bookingsRouter.route("/").post(postBooking).get(getPropertyBookings);
 
 bookingsRouter.route("/:id").patch(patchBooking).delete(deleteBooking);
 

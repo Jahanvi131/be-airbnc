@@ -3,6 +3,7 @@ const {
   updateBooking,
   deleteBooking,
   fetchUserBooking,
+  fetchPropertyBooking,
 } = require("../models/bookings/bookingmodel");
 
 exports.postBooking = (req, res, next) => {
@@ -41,7 +42,16 @@ exports.getUserBookings = (req, res, next) => {
   const { id: guest_id } = req.params;
   fetchUserBooking(guest_id)
     .then((bookings) => {
-      res.status(200).send({ bookings });
+      res.status(200).send(bookings);
+    })
+    .catch(next);
+};
+
+exports.getPropertyBookings = (req, res, next) => {
+  const { id: property_id } = req.params;
+  fetchPropertyBooking(property_id)
+    .then((bookings) => {
+      res.status(200).send(bookings);
     })
     .catch(next);
 };

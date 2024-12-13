@@ -7,8 +7,8 @@ exports.fetchReviews = async (property_id) => {
     rows: [{ result }],
   } = await db.query(selectReviews, [property_id]);
 
-  if (result.hasOwnProperty(["property-id"])) {
-    return Promise.reject({ status: 404, msg: "No record found." });
+  if (result.hasOwnProperty(["error-msg"])) {
+    return Promise.reject({ status: 404, msg: result["error-msg"] });
   }
   return result;
 };
