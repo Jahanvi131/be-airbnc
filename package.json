@@ -2,12 +2,14 @@
   "name": "be-airbnc",
   "version": "1.0.0",
   "description": "## Get Started",
-  "main": "index.js",
+  "main": "listen.js",
   "scripts": {
     "setup-dbs": "psql -f db/seed/setup-dbs.sql",
     "seed": "node ./db/seed/seed-run.js",
     "test-util": "jest util",
-    "test": "jest app"
+    "test": "jest app",
+    "start": "node listen.js",
+    "seed-prod": "NODE_ENV=production npm run seed"
   },
   "keywords": [],
   "author": "",
