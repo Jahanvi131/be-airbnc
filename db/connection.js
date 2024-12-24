@@ -11,11 +11,12 @@ if (ENV === "production") {
 }
 
 require("dotenv").config({
-  path: path.resolve(__dirname, `../.env.test`),
+  path: path.resolve(__dirname, `../.env.${ENV}`),
 });
 
 if (!process.env.PGDATABASE && !process.env.DATABASE_URL) {
   throw new Error("PGDATABASE or DATABASE_URL not set");
 }
 
-module.exports = new Pool(config);
+const pool = new Pool(config);
+module.exports = pool;

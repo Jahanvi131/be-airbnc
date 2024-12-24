@@ -15,25 +15,25 @@ exports.dropBookings = "DROP TABLE IF EXISTS bookings";
 
 // create tables queries
 exports.createPropertyTypes = `CREATE TABLE property_types(
-                               property_type VARCHAR(50) PRIMARY KEY,
+                               property_type VARCHAR PRIMARY KEY,
                                description TEXT NOT NULL);`;
 
 exports.createUsers = `CREATE TABLE users(
                         user_id serial PRIMARY KEY,
-                        first_name VARCHAR(50) NOT NULL,
-                        surname VARCHAR(50) NOT NULL,
-                        email VARCHAR(50) NOT NULL,
-                        phone_number VARCHAR(15),
-                        role VARCHAR(10) CHECK (role IN ('host', 'guest')),
-                        avatar VARCHAR(50),
+                        first_name VARCHAR NOT NULL,
+                        surname VARCHAR NOT NULL,
+                        email VARCHAR NOT NULL,
+                        phone_number VARCHAR,
+                        role VARCHAR CHECK (role IN ('host', 'guest')),
+                        avatar VARCHAR,
                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);`;
 
 exports.createProperties = `CREATE TABLE properties(
                              property_id SERIAL PRIMARY KEY,
                              host_id INT NOT NULL REFERENCES users(user_id),
-                             name VARCHAR(100) NOT NULL,
-                             location VARCHAR(50) NOT NULL,
-                             property_type VARCHAR(50) NOT NULL REFERENCES property_types(property_type),
+                             name VARCHAR NOT NULL,
+                             location VARCHAR NOT NULL,
+                             property_type VARCHAR NOT NULL REFERENCES property_types(property_type),
                              price_per_night decimal NOT NULL,
                              description TEXT);`;
 
