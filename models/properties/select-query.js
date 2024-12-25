@@ -1,5 +1,13 @@
 exports.selectProperties = (options = {}) => {
-  const { maxprice, minprice, sort = "name", order = "asc", host } = options;
+  const {
+    maxprice,
+    minprice,
+    sort = "popularity",
+    order = "asc",
+    host,
+    limit = 5,
+    page = 1,
+  } = options;
   const values = [];
   let queryStr = `SELECT count(f.favourite_id) as popularity, p.property_id, name as property_name,
                       location, price_per_night::float,
@@ -36,6 +44,11 @@ exports.selectProperties = (options = {}) => {
 
   queryStr += `GROUP BY p.property_id, host `;
   queryStr += `ORDER BY ${sort} ${order} `;
+
+  if (Number(page) && page > 0) {
+    const offset = (page - 1) * limit;
+    queryStr += `LIMIT ${limit} OFFSET ${offset} `;
+  }
 
   return { query: queryStr, values: values };
 };

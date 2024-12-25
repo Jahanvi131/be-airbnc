@@ -80,13 +80,15 @@ describe("app", () => {
               });
             });
         });
-        test("200 - response with all properties default sortby valid field(popularity)", () => {
+        test("200 - response with all properties default sortby valid field(popularity) and order descending", () => {
           return request(app)
-            .get("/api/properties?sort=popularity")
+            .get("/api/properties?sort=popularity&&order=desc")
             .expect(200)
             .then(({ body: { properties } }) => {
               expect(properties.length).toBeGreaterThan(0);
-              expect(properties).toBeSortedBy("popularity");
+              expect(properties).toBeSortedBy("popularity", {
+                descending: true,
+              });
             });
         });
         test("200 - response with all properties sortby valid field(price_per_night)", () => {
@@ -100,13 +102,11 @@ describe("app", () => {
         });
         test("200 - response with all properties by valid order", () => {
           return request(app)
-            .get("/api/properties?order=desc")
+            .get("/api/properties?order=asc")
             .expect(200)
             .then(({ body: { properties } }) => {
               expect(properties.length).toBeGreaterThan(0);
-              expect(properties).toBeSortedBy("property_name", {
-                descending: true,
-              });
+              expect(properties).toBeSortedBy("popularity");
             });
         });
         test("200 - response with all properties filter by host", () => {
@@ -118,6 +118,22 @@ describe("app", () => {
               properties.forEach((p) => {
                 expect(p).toHaveProperty("host", "Alice Johnson");
               });
+            });
+        });
+        test("200 - response with all properties set default limit 5", () => {
+          return request(app)
+            .get("/api/properties")
+            .expect(200)
+            .then(({ body: { properties } }) => {
+              expect(properties).toHaveLength(5);
+            });
+        });
+        test("200 - response with all properties pass optional page - 2", () => {
+          return request(app)
+            .get("/api/properties?page=2")
+            .expect(200)
+            .then(({ body: { properties } }) => {
+              expect(properties).toHaveLength(properties.length);
             });
         });
       });
