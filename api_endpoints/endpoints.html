@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Documentation</title>
+    <style>
+      body {
+        font-family: Arial;
+        margin: 40px;
+      }
+      .title-body {
+        background-color: aliceblue;
+        text-align: center;
+      }
+      .project-title {
+        color: #f44336;
+        font-size: 3rem;
+      }
+      .project-desc {
+        margin: 0;
+      }
+      .endpoint {
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        padding: 15px;
+        border-radius: 4px;
+      }
+      .get {
+        color: #2196f3;
+      }
+      .post {
+        color: #4caf50;
+      }
+      .put {
+        color: #ff9800;
+      }
+      .delete {
+        color: #f44336;
+      }
+      h2 {
+        color: #ff9800;
+        font-size: 2rem;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      span {
+        font-weight: bolder;
+        margin: 5px;
+      }
+      pre{
+        display: inline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title-body">
+      <h1 class="project-title">Airbnc</h1>
+      <pre class="project-desc">
+        Airbnc is an online marketplace connecting hosts and guests worldwide for short-term rentals.
+        Hosts can earn money by renting out space in their homes or entire properties. 
+        Also allow guest to give ratings and reviews on properties and can add properties in favourites.
+        And finally allow to reserve bookings.
+      </pre>
+    </div>
+    <h2>List of endpoints for Airbnc</h2>
+    <!-- GET -->
+    <div class="endpoint">
+      <h3 class="get">
+        <span>GET</span><a href="#" alt="Properties">/api/properties</a>
+      </h3>
+      <p>
+        <span>Description:</span> this endpoint is given us response with all
+        the listed properties.
+      </p>
+      <p><span>Parameters:</span> we can pass optional query like:</p>
+      <ol type="number">
+        <li>maxprice</li>
+        <li>minprice</li>
+        <li>sort</li>
+        <li>order</li>
+        <li>host</li>
+        <li>page</li>
+      </ol>
+      <p><span>Response:</span>  <pre>
+            [
+                  {
+                    popularity: '1',
+                    property_id: 1,
+                    property_name: 'Modern Apartment in City Center',
+                    location: 'London, UK',
+                    price_per_night: 120,
+                    host: 'Alice Johnson',
+                    image: 'https://example.com/images/modern_apartment_1.jpg'
+                  },
+                  {
+                      popularity: '0',
+                      property_id: 11,
+                      property_name: 'Bright and Airy Studio',
+                      location: 'Cambridge, UK',
+                      price_per_night: 100,
+                      host: 'Alice Johnson',
+                      image: null
+                  },
+              ]</pre
+             ></p>
+      
+    </div> 
+     <!-- POST -->
+    <div class="endpoint">
+      <h3 class="post">POST /api/properties</h3>
+      <p>
+        <span>Description:</span> this endpoint we use to post(insert) property details.
+      </p>
+      <p>
+        <span>Request Body:</span> 
+    <pre>
+         {
+              name: "test property",
+              property_type: "Studio",
+              location: "Cornwall, UK",
+              price_per_night: 95.0,
+              description: "Description of Seaside Studio Getaway.",
+              host_id: 1,
+         }
+       </pre>
+      </p>
+      <p><span>Response:</span>
+        <pre>
+        {
+          property_id: 12,
+          host_id: 1,
+          name: 'test property',
+          location: 'Cornwall, UK',
+          property_type: 'Studio',
+          price_per_night: '95',
+          description: 'Description of Seaside Studio Getaway.'
+        }
+        </pre></p>
+    </div>
+     <!-- GET -->
+    <div class="endpoint">
+      <h3 class="get">
+        <span>GET</span><a href="#" alt="Properties">/api/properties/:id</a>
+      </h3>
+      <p>
+        <span>Description:</span> this endpoint is given us response of perticular property.
+      </p>
+      <p><span>Parameters:</span>
+          id (path parameter)
+      </p>
+      <p><span>Response:</span><pre>
+        {
+          property_id: 1,
+          property_name: 'Modern Apartment in City Center',
+          location: 'London, UK',
+          price_per_night: 120,
+          description: 'Description of Modern Apartment in City Center.',
+          host: 'Alice Johnson',
+          host_avatar: 'https://example.com/images/alice.jpg',
+          favourite_count: 1,
+          images: [
+            'https://example.com/images/modern_apartment_1.jpg',
+            'https://example.com/images/modern_apartment_3.jpg',
+            'https://example.com/images/modern_apartment_3.jpg'
+          ]
+        }</pre
+             ></p>
+      
+    </div> 
+     <!-- PUT -->
+    <div class="endpoint">
+      <h3 class="put">PUT /api/properties/:id</h3>
+      <p>
+        <span>Description:</span> this endpoint we use to update perticular property.
+      </p>
+      <p><span>Parameters:</span>
+        id (path parameter)
+    </p>
+    <p><span>Request Body:</span>
+      <pre>
+        {
+          property_name: "newly created one prop",
+          property_type: "Apartment",
+          location: "York, UK",
+          price_per_night: 94.0,
+          description: "Description of Seaside Studio Getaway test.",
+        }
+      </pre>
+  </p>
+    <p><span>Response:</span><pre>
+        {
+          property_id: 10,
+          host_id: 5,
+          name: 'newly created one prop',
+          location: 'York, UK',
+          property_type: 'Apartment',
+          price_per_night: '94',
+          description: 'Description of Seaside Studio Getaway test.'
+        }</pre></p>
+    </div>
+     <!-- DELETE -->
+    <div class="endpoint">
+      <h3 class="delete">DELETE /api/properties/:id</h3>
+      <p>
+        <span>Description:</span> this endpoint we use to delete perticular property.
+      </p>
+      <p><span>Parameters:</span>
+        id (path parameter)
+    </p>
+    <p><span>Response:</span><pre> no content </pre></p>
+    </div>
+    <!-- POST -->
+    <div class="endpoint">
+        <h3 class="post">POST /api/properties/:id/favourite</h3>
+        <p>
+          <span>Description:</span> this endpoint we use to post(insert) property's favourite details.
+        </p>
+        <p>
+          <span>Request Body:</span> 
+          <pre>
+              {
+                guest_id: 1,
+              }
+      </pre>
+        </p>
+        <p><span>Parameters:</span>
+          id (path parameter)
+      </p>
+        <p><span>Response:</span>
+          <pre>
+            { 
+               favourite_id: 12,
+               msg: 'Property favourited successfully.' 
+            }
+          </pre></p>
+    </div>
+    <!-- DELETE -->
+    <div class="endpoint">
+      <h3 class="delete">DELETE /api/favourites/:id</h3>
+      <p>
+        <span>Description:</span> this endpoint we use to delete property's favourite.
+      </p>
+      <p><span>Parameters:</span>
+        id (path parameter)
+    </p>
+    <p><span>Response:</span><pre> no content </pre></p>
+    </div>
+    <!-- GET -->
+    <div class="endpoint">
+      <h3 class="get">
+        <span>GET</span><a href="#" alt="reviews">/api/properties/:id/reviews</a>
+      </h3>
+      <p>
+        <span>Description:</span> this endpoint is given us response with all the reviews on perticular property.
+      </p>
+      <p><span>Parameters:</span>
+          id (path parameter)
+      </p>
+      <p><span>Response:</span><pre>
+        {
+          reviews: [
+            {
+              review_id: 2,
+              comment: 'Comment about Modern Apartment in City Center: Too noisy at night, and the apartment felt cramped. Wouldn’t stay again.',
+              rating: 2,
+              created_at: '2024-12-27T18:25:29.290061',
+              guest: 'Bob Smith',
+              guest_avatar: 'https://example.com/images/bob.jpg'
+            },
+            {
+              review_id: 8,
+              comment: 'Comment about Modern Apartment in City Center: Central location but parking was a hassle and the space felt a bit cramped.',
+              rating: 3,
+              created_at: '2024-12-27T18:25:29.290061',
+              guest: 'Rachel Cummings',
+              guest_avatar: 'https://example.com/images/rachel.jpg'
+            }
+          ],
+          average_rating: 2.5
+        }</pre
+             ></p>
+      
+    </div>
+     <!-- POST -->
+     <div class="endpoint">
+      <h3 class="post">POST /api/properties/:id/reviews</h3>
+      <p>
+        <span>Description:</span> this endpoint we use to post(insert) property's review details.
+      </p>
+      <p><span>Parameters:</span>
+        id (path parameter)
+    </p>
+      <p>
+        <span>Request Body:</span> 
+        <pre>
+          {
+            guest_id: 1,
+            rating: 4,
+            comment: "test comment",
+          }
+    </pre>
+      </p>
+      <p><span>Response:</span>
+        <pre>
+          {
+            review_id: 12,
+            property_id: 1,
+            guest_id: 1,
+            rating: 4,
+            comment: 'test comment',
+            created_at: '2024-12-27T18:51:43.922Z'
+          }
+        </pre></p>
+    </div>
+    <!-- DELETE -->
+    <div class="endpoint">
+      <h3 class="delete">DELETE /api/reviews/:id</h3>
+      <p>
+        <span>Description:</span> this endpoint we use to delete perticular property's review.
+      </p>
+      <p><span>Parameters:</span>
+        id (path parameter)
+    </p>
+    <p><span>Response:</span><pre> no content </pre></p>
+    </div>
+    <!-- GET -->
+    <div class="endpoint">
+      <h3 class="get">
+        <span>GET</span><a href="#" alt="users">/api/users/:id</a>
+      </h3>
+      <p>
+        <span>Description:</span> this endpoint is given us response of specific user.
+      </p>
+      <p><span>Parameters:</span>
+          id (path parameter)
+      </p>
+      <p><span>Response:</span><pre>
+        {
+          user_id: 1,
+          first_name: 'Alice',
+          surname: 'Johnson',
+          email: 'alice@example.com',
+          phone_number: '+44 7000 111111',
+          avatar: 'https://example.com/images/alice.jpg',
+          created_at: '2024-12-27T18:51:44.186Z'
+        }</pre
+             ></p>
+      
+    </div>
+    <!-- PUT -->
+    <div class="endpoint">
+    <h3 class="put">PUT /api/users/:id</h3>
+    <p>
+      <span>Description:</span> this endpoint we use to update perticular user.
+    </p>
+    <p><span>Parameters:</span>
+      id (path parameter)
+  </p>
+  <p><span>Request Body:</span>
+    <pre>
+      {
+        first_name: "Alicetest",
+        surname: "Johnsontest",
+        email: "alice@exampletest.com",
+        phone: "+44 7000 111122",
+        avatar: "https://example.com/images/bob.jpg",
+      }
+    </pre>
+</p>
+  <p><span>Response:</span><pre>
+    {
+      user_id: 1,
+      first_name: 'Alicetest',
+      surname: 'Johnsontest',
+      email: 'alice@exampletest.com',
+      phone_number: '+44 7000 111122',
+      role: 'host',
+      avatar: 'https://example.com/images/bob.jpg',
+      created_at: '2024-12-27T18:54:43.491Z'
+    }</pre></p>
+    </div>
+    <!-- POST -->
+    <div class="endpoint">
+      <h3 class="post">POST /api/users</h3>
+      <p>
+        <span>Description:</span> this endpoint we use to post(insert) user details.
+      </p>
+      <p>
+        <span>Request Body:</span> 
+        <pre>
+          {
+            first_name: "Alicetest",
+            surname: "Johnsontest",
+            email: "alice@exampletest.com",
+            phone: "+44 7000 111122",
+            role: "host",
+            avatar: "https://example.com/images/bob.jpg",
+          }
+    </pre>
+      </p>
+      <p><span>Response:</span>
+        <pre>
+          {
+            user_id: 7,
+            first_name: 'Alicetest',
+            surname: 'Johnsontest',
+            email: 'alice@exampletest.com',
+            phone_number: '+44 7000 111122',
+            role: 'host',
+            avatar: 'https://example.com/images/bob.jpg',
+            created_at: '2024-12-27T18:59:15.611Z'
+          }      
+        </pre></p>
+    </div>
+     <!-- POST -->
+     <div class="endpoint">
+      <h3 class="post">POST /api/properties/:id/bookings</h3>
+      <p>
+        <span>Description:</span> this endpoint we use to post(insert) booking details for the specific property.
+      </p>
+      <p><span>Parameters:</span>
+        id (path parameter)
+    </p>
+      <p>
+        <span>Request Body:</span> 
+        <pre>
+          {
+            guest_id: 2,
+            check_in_date: "2025-12-01",
+            check_out_date: "2025-12-05",
+          }
+    </pre>
+      </p>
+      <p><span>Response:</span>
+        <pre>
+          { 
+            booking_id: 11,
+            msg: 'Booking successful'
+          }   
+        </pre></p>
+    </div>
+    <!-- GET -->
+    <div class="endpoint">
+    <h3 class="get">
+      <span>GET</span><a href="#" alt="bookings">/api/properties/:id/bookings</a>
+    </h3>
+    <p>
+      <span>Description:</span> this endpoint is given us response of all the bookings of the specific property.
+    </p>
+    <p><span>Parameters:</span>
+        id (path parameter)
+    </p>
+    <p><span>Response:</span><pre>
+      {
+        bookings: [
+          {
+            booking_id: 1,
+            check_in_date: '2025-12-01',
+            check_out_date: '2025-12-05',
+            created_at: '2024-12-27T19:01:25.280665'
+          },
+          {
+            booking_id: 11,
+            check_in_date: '2025-12-01',
+            check_out_date: '2025-12-05',
+            created_at: '2024-12-27T19:03:44.970923'
+          }
+        ],
+        property_id: 1
+      }</pre
+            ></p>
+    
+    </div>
+    <!-- PUT -->
+    <div class="endpoint">
+    <h3 class="put">PUT /api/bookings/:id</h3>
+    <p>
+      <span>Description:</span> this endpoint we use to update perticular booking.
+    </p>
+    <p><span>Parameters:</span>
+      id (path parameter)
+  </p>
+  <p><span>Request Body:</span>
+    <pre>
+      {
+        check_in_date: "2024-12-26T10:00:00.000Z",
+        check_out_date: "2024-12-28T10:00:00.000Z",
+      }
+    </pre>
+</p>
+  <p><span>Response:</span><pre>
+    {
+      booking_id: 1,
+      property_id: 1,
+      guest_id: 2,
+      check_in_date: '2024-12-26T00:00:00.000Z',
+      check_out_date: '2024-12-28T00:00:00.000Z',
+      created_at: '2024-12-27T19:03:45.114Z'
+    }</pre></p>
+    </div>
+    <!-- DELETE -->
+    <div class="endpoint">
+      <h3 class="delete">DELETE /api/bookings/:id</h3>
+      <p>
+        <span>Description:</span> this endpoint we use to delete specific property's booking.
+      </p>
+      <p><span>Parameters:</span>
+        id (path parameter)
+    </p>
+    <p><span>Response:</span><pre> no content </pre></p>
+    </div>
+        <!-- GET -->
+        <div class="endpoint">
+          <h3 class="get">
+            <span>GET</span><a href="#" alt="bookings">/api/users/:id/bookings</a>
+          </h3>
+          <p>
+            <span>Description:</span> this endpoint is given us response with all the bookings of specific user.
+          </p>
+          <p><span>Parameters:</span>
+              id (path parameter)
+          </p>
+          <p><span>Response:</span><pre>
+          [
+            {
+              booking_id: 6,
+              check_in_date: '2025-12-08',
+              check_out_date: '2025-12-12',
+              property_id: 6,
+              property_name: 'Luxury Penthouse with View',
+              host: 'Bob Smith',
+              image: 'https://example.com/images/luxury_penthouse_1.jpg'
+            },
+            {
+              booking_id: 11,
+              check_in_date: '2025-12-01',
+              check_out_date: '2025-12-05',
+              property_id: 1,
+              property_name: 'Modern Apartment in City Center',
+              host: 'Bob Smith',
+              image: 'https://example.com/images/modern_apartment_1.jpg'
+            }
+          ] </pre
+                  ></p>
+          
+          </div>
+  </body>
+</html>

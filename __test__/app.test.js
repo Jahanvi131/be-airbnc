@@ -4,10 +4,12 @@ const data = require("../db/data/test/index.js");
 const seed = require("../db/seed/seed.js");
 const db = require("../db/connection.js");
 
+beforeEach(async () => {
+  await seed(data);
+});
+
 afterAll(() => {
-  seed(data).then(() => {
-    db.end();
-  });
+  db.end();
 });
 
 describe("app", () => {
@@ -1282,7 +1284,7 @@ describe("app", () => {
             });
         });
         test("200 - empty response for the no bookings of specific property", () => {
-          return request(app).get("/api/properties/12/bookings").expect(200);
+          return request(app).get("/api/properties/11/bookings").expect(200);
         });
       });
     });
