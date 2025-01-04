@@ -5,7 +5,7 @@ const {
 } = require("../properties/select-query");
 
 exports.fetchProperties = async (options = {}) => {
-  const { sort = "popularity", order = "asc" } = options;
+  const { sort = "popularity", order = "desc", page = 1 } = options;
   const { query, values } = selectProperties(options);
 
   const validSortBy = ["price_per_night", "name", "popularity"];
@@ -15,6 +15,13 @@ exports.fetchProperties = async (options = {}) => {
     return Promise.reject({
       status: 400,
       msg: "Oops! Invalid either sort or order.",
+    });
+  }
+
+  if (!Number(page)) {
+    return Promise.reject({
+      status: 400,
+      msg: "Oops! Invalid page number.",
     });
   }
 

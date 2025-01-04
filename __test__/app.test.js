@@ -82,9 +82,9 @@ describe("app", () => {
               });
             });
         });
-        test("200 - response with all properties default sortby valid field(popularity) and order descending", () => {
+        test("200 - response with all properties default sortby valid field(popularity) and order(descending)", () => {
           return request(app)
-            .get("/api/properties?sort=popularity&&order=desc")
+            .get("/api/properties")
             .expect(200)
             .then(({ body: { properties } }) => {
               expect(properties.length).toBeGreaterThan(0);
@@ -93,22 +93,13 @@ describe("app", () => {
               });
             });
         });
-        test("200 - response with all properties sortby valid field(price_per_night)", () => {
+        test("200 - response with all properties sortby valid field(price_per_night) and order(ascending)", () => {
           return request(app)
-            .get("/api/properties?sort=price_per_night")
+            .get("/api/properties?sort=price_per_night&&order=asc")
             .expect(200)
             .then(({ body: { properties } }) => {
               expect(properties.length).toBeGreaterThan(0);
               expect(properties).toBeSortedBy("price_per_night");
-            });
-        });
-        test("200 - response with all properties by valid order", () => {
-          return request(app)
-            .get("/api/properties?order=asc")
-            .expect(200)
-            .then(({ body: { properties } }) => {
-              expect(properties.length).toBeGreaterThan(0);
-              expect(properties).toBeSortedBy("popularity");
             });
         });
         test("200 - response with all properties filter by host", () => {
@@ -184,7 +175,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("400 - returns bad request for invalid sort fields", () => {
+        test("400 - returns bad request for invalid type query(sort)", () => {
           return request(app)
             .get("/api/properties?sort=invalid_sort")
             .expect(400)
@@ -192,7 +183,7 @@ describe("app", () => {
               expect(msg).toBe("Oops! Invalid either sort or order.");
             });
         });
-        test("400 - returns bad request for invalid order passed", () => {
+        test("400 - returns bad request for invalid type query(order)", () => {
           return request(app)
             .get("/api/properties?order=invalid_order")
             .expect(400)
@@ -200,7 +191,15 @@ describe("app", () => {
               expect(msg).toBe("Oops! Invalid either sort or order.");
             });
         });
-        test("404 - returns not found when host didn't exist", () => {
+        test("400 - returns bad request for invalid type query(page)", () => {
+          return request(app)
+            .get("/api/properties?page=invalid_page")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Oops! Invalid page number.");
+            });
+        });
+        test("404 - returns not found for non-existent - host", () => {
           return request(app)
             .get("/api/properties?host=10000")
             .expect(404)
@@ -208,9 +207,17 @@ describe("app", () => {
               expect(msg).toBe("No record found.");
             });
         });
+        test("404 - returns not found for non-existent - page", () => {
+          return request(app)
+            .get("/api/properties?page=10000")
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("No record found.");
+            });
+        });
       });
       describe("POST", () => {
-        test("400 - returns bad request for missing fields - name", () => {
+        test("400 - returns bad request for missing field - name", () => {
           const postData = {
             property_type: "Studio",
             location: "Cornwall, UK",
@@ -226,7 +233,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for missing fields - property_type", () => {
+        test("400 - returns bad request for missing field - property_type", () => {
           const postData = {
             name: "test property",
             location: "Cornwall, UK",
@@ -242,7 +249,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for missing fields - location", () => {
+        test("400 - returns bad request for missing field - location", () => {
           const postData = {
             name: "test property",
             property_type: "Studio",
@@ -258,7 +265,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for missing fields - price_per_night", () => {
+        test("400 - returns bad request for missing field - price_per_night", () => {
           const postData = {
             name: "test property",
             property_type: "Studio",
@@ -274,7 +281,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for missing fields - host_id", () => {
+        test("400 - returns bad request for missing field - host_id", () => {
           const postData = {
             name: "test property",
             property_type: "Studio",
@@ -290,7 +297,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields - name", () => {
+        test("400 - returns bad request for invalid field - name", () => {
           const postData = {
             property_name: "test",
             property_type: "Studio",
@@ -307,7 +314,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields - property_type", () => {
+        test("400 - returns bad request for invalid field - property_type", () => {
           const postData = {
             name: "test",
             propertytype: "Studio",
@@ -324,7 +331,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields - location", () => {
+        test("400 - returns bad request for invalid field - location", () => {
           const postData = {
             name: "test",
             property_type: "Studio",
@@ -341,7 +348,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields - price_per_night", () => {
+        test("400 - returns bad request for invalid field - price_per_night", () => {
           const postData = {
             name: "test",
             property_type: "Studio",
@@ -358,7 +365,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields - host_id", () => {
+        test("400 - returns bad request for invalid field - host_id", () => {
           const postData = {
             name: "test",
             property_type: "Studio",
@@ -375,7 +382,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid type fields - host_id", () => {
+        test("400 - returns bad request for invalid type field - host_id", () => {
           const postData = {
             name: "test property",
             property_type: "Studio",
@@ -392,7 +399,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found for in-existent foreign key - property_type", () => {
+        test("404 - returns not found for non-existent foreign key - property_type", () => {
           const postData = {
             name: "test property",
             property_type: "Studio11",
@@ -409,7 +416,7 @@ describe("app", () => {
               expect(msg).toBe("foreign key reference not found.");
             });
         });
-        test("404 - returns not found for in-existent foreign key - host id", () => {
+        test("404 - returns not found for non-existent foreign key - hostid", () => {
           const postData = {
             name: 1,
             property_type: "Studio",
@@ -507,7 +514,7 @@ describe("app", () => {
     });
     describe("SAD PATH", () => {
       describe("GET", () => {
-        test("400 - returns bad request for invalid id", () => {
+        test("400 - returns bad request for invalid field - property_id", () => {
           return request(app)
             .get("/api/properties/invalid_id")
             .expect(400)
@@ -515,7 +522,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("400 - returns bad request for invalid type query", () => {
+        test("400 - returns bad request for invalid type query(user_id)", () => {
           return request(app)
             .get("/api/properties/1?user_id=invalid_id")
             .expect(400)
@@ -523,7 +530,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found for non-existent property_id", () => {
+        test("404 - returns not found for non-existent - property_id", () => {
           return request(app)
             .get("/api/properties/9999999")
             .expect(404)
@@ -533,7 +540,7 @@ describe("app", () => {
         });
       });
       describe("DELETE", () => {
-        test("400 - returns bad request for invalid id", () => {
+        test("400 - returns bad request for invalid field - property_id", () => {
           return request(app)
             .delete("/api/properties/invalid_id")
             .expect(400)
@@ -541,7 +548,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found when the property does not exist", () => {
+        test("404 - returns not found for non-existent - property_id", () => {
           return request(app)
             .delete("/api/properties/1000")
             .expect(404)
@@ -551,7 +558,7 @@ describe("app", () => {
         });
       });
       describe("PATCH", () => {
-        test("400 - returns bad request for invalid type fields - price_per_night", () => {
+        test("400 - returns bad request for invalid type field - price_per_night", () => {
           const updateData = {
             property_name: "property_test",
             property_type: "studio",
@@ -567,7 +574,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found for invalid foreign key reference fields - property_type", () => {
+        test("404 - returns not found for invalid foreign key reference field - property_type", () => {
           const updateData = {
             property_name: "1",
             property_type: 1,
@@ -583,7 +590,7 @@ describe("app", () => {
               expect(msg).toBe("foreign key reference not found.");
             });
         });
-        test("400 - returns bad request for invalid id", () => {
+        test("400 - returns bad request for invalid field - property_id", () => {
           const updateData = {
             property_name: "newly created one prop",
             property_type: "Apartment",
@@ -599,7 +606,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found when the property does not exist", () => {
+        test("404 - returns not found for non-existent - property_id", () => {
           return request(app)
             .patch("/api/properties/99999")
             .expect(404)
@@ -632,7 +639,7 @@ describe("app", () => {
     });
     describe("SAD PATH", () => {
       describe("POST", () => {
-        test("400 - returns bad request for missing fields - guest_id", () => {
+        test("400 - returns bad request for missing field - guest_id", () => {
           return request(app)
             .post("/api/properties/1/favourite")
             .expect(400)
@@ -640,7 +647,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields - guest_id", () => {
+        test("400 - returns bad request for invalid field - guest_id", () => {
           const postData = {
             guestid: 1,
           };
@@ -652,7 +659,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid type fields - guest_id", () => {
+        test("400 - returns bad request for invalid type field - guest_id", () => {
           const postData = {
             guest_id: "invalid_guestid",
           };
@@ -664,7 +671,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found  for invalid foreign key reference fields - guest_id", () => {
+        test("404 - returns not found  for invalid foreign key reference field - guest_id", () => {
           const postData = {
             guest_id: 99999,
           };
@@ -676,7 +683,7 @@ describe("app", () => {
               expect(msg).toBe("foreign key reference not found.");
             });
         });
-        test("404 - returns not found  for invalid foreign key reference fields - property_id", () => {
+        test("404 - returns not found  for invalid foreign key reference field - property_id", () => {
           const postData = {
             guest_id: 1,
           };
@@ -688,7 +695,7 @@ describe("app", () => {
               expect(msg).toBe("foreign key reference not found.");
             });
         });
-        test("400 - returns bad request for invalid id", () => {
+        test("400 - returns bad request for invalid field - property_id", () => {
           const postData = {
             guest_id: 1,
           };
@@ -727,7 +734,7 @@ describe("app", () => {
         );
       });
       describe("DELETE", () => {
-        test("400 - returns bad request for invalid id", () => {
+        test("400 - returns bad request for invalid field - favourite_id", () => {
           return request(app)
             .delete("/api/favourites/invalid_id")
             .expect(400)
@@ -735,7 +742,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found for non-existent favourite id", () => {
+        test("404 - returns not found for non-existent - favourite_id", () => {
           return request(app)
             .delete("/api/favourites/10000000")
             .expect(404)
@@ -804,7 +811,7 @@ describe("app", () => {
     });
     describe("SAD PATH", () => {
       describe("GET", () => {
-        test("400 - returns bad request for invalid property id", () => {
+        test("400 - returns bad request for invalid field - property id", () => {
           return request(app)
             .get("/api/properties/invalid_id/reviews")
             .expect(400)
@@ -812,7 +819,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found for non-existent property id", () => {
+        test("404 - returns not found for non-existent - property id", () => {
           return request(app)
             .get("/api/properties/99999/reviews")
             .expect(404)
@@ -822,7 +829,7 @@ describe("app", () => {
         });
       });
       describe("POST", () => {
-        test("400 - returns bad request for missing fields - guest_id", () => {
+        test("400 - returns bad request for missing field - guest_id", () => {
           const postData = {
             rating: 4,
             comment: "test comment",
@@ -835,7 +842,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for missing fields - rating", () => {
+        test("400 - returns bad request for missing field - rating", () => {
           const postData = {
             guest_id: 1,
             comment: "test comment",
@@ -848,7 +855,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields - guest_id", () => {
+        test("400 - returns bad request for invalid field - guest_id", () => {
           const postData = {
             guestid: 1,
             rating: 4,
@@ -862,7 +869,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields - rating", () => {
+        test("400 - returns bad request for invalid field - rating", () => {
           const postData = {
             guest_id: 1,
             rat: 4,
@@ -876,7 +883,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid type fields - guest_id", () => {
+        test("400 - returns bad request for invalid type field - guest_id", () => {
           const postData = {
             guest_id: "invalid_guestid",
             rating: 4,
@@ -890,7 +897,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("400 - returns bad request for invalid type fields - rating", () => {
+        test("400 - returns bad request for invalid type field - rating", () => {
           const postData = {
             guest_id: 1,
             rating: "invalid_rating",
@@ -904,7 +911,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found  for invalid foreign key reference fields - guest_id", () => {
+        test("404 - returns not found  for invalid foreign key reference field - guest_id", () => {
           const postData = {
             guest_id: 10000,
             rating: 4,
@@ -918,7 +925,7 @@ describe("app", () => {
               expect(msg).toBe("foreign key reference not found.");
             });
         });
-        test("404 - returns not found  for invalid foreign key reference fields - property_id", () => {
+        test("404 - returns not found  for invalid foreign key reference field - property_id", () => {
           const postData = {
             guest_id: 1,
             rating: 4,
@@ -932,7 +939,7 @@ describe("app", () => {
               expect(msg).toBe("foreign key reference not found.");
             });
         });
-        test("400 - returns bad request for invalid id", () => {
+        test("400 - returns bad request for invalid field - property_id", () => {
           const postData = {
             guest_id: 1,
             rating: 4,
@@ -973,7 +980,7 @@ describe("app", () => {
         );
       });
       describe("DELETE", () => {
-        test("400 - returns bad request for invalid id", () => {
+        test("400 - returns bad request for invalid field - review_id", () => {
           return request(app)
             .delete("/api/reviews/invalid_id")
             .expect(400)
@@ -981,7 +988,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found for non-existent review id", () => {
+        test("404 - returns not found for non-existent - review id", () => {
           return request(app)
             .delete("/api/reviews/100000")
             .expect(404)
@@ -1061,7 +1068,7 @@ describe("app", () => {
         );
       });
       describe("GET", () => {
-        test("400 - returns bad request for invalid id", () => {
+        test("400 - returns bad request for invalid field - user_id", () => {
           return request(app)
             .get("/api/users/invalid_id")
             .expect(400)
@@ -1069,7 +1076,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found for non-existent user_id", () => {
+        test("404 - returns not found for non-existent - user_id", () => {
           return request(app)
             .get("/api/users/99999")
             .expect(404)
@@ -1079,7 +1086,7 @@ describe("app", () => {
         });
       });
       describe("PATCH", () => {
-        test("400 - returns bad request for invalid id", () => {
+        test("400 - returns bad request for invalid field - user_id", () => {
           const updateData = {
             first_name: "Alicetest",
             surname: "Johnsontest",
@@ -1095,7 +1102,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found when the user does not exist", () => {
+        test("404 - returns not found for non-existent - user_id", () => {
           return request(app)
             .patch("/api/users/99999")
             .expect(404)
@@ -1109,7 +1116,7 @@ describe("app", () => {
   describe("/api/users", () => {
     describe("HAPPY PATH", () => {
       describe("POST", () => {
-        test("201 - response with recently created user", () => {
+        test("201 - response with recently created user object", () => {
           const postData = {
             first_name: "Alicetest",
             surname: "Johnsontest",
@@ -1141,7 +1148,7 @@ describe("app", () => {
     });
     describe("SAD PATH", () => {
       describe("POST", () => {
-        test("400 - returns bad request for missing fields - first_name", () => {
+        test("400 - returns bad request for missing field - first_name", () => {
           const postData = {
             surname: "Johnsontest",
             email: "alice@exampletest.com",
@@ -1157,7 +1164,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for missing fields - surname", () => {
+        test("400 - returns bad request for missing field - surname", () => {
           const postData = {
             first_name: "Alicetest",
             email: "alice@exampletest.com",
@@ -1173,7 +1180,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for missing fields - email", () => {
+        test("400 - returns bad request for missing field - email", () => {
           const postData = {
             first_name: "Alicetest",
             surname: "Johnsontest",
@@ -1189,7 +1196,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields - first_name", () => {
+        test("400 - returns bad request for invalid field - first_name", () => {
           const postData = {
             firstname: "Alicetest",
             surname: "Johnsontest",
@@ -1206,7 +1213,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields - surname", () => {
+        test("400 - returns bad request for invalid field - surname", () => {
           const postData = {
             first_name: "Alicetest",
             surrrrname: "Johnsontest",
@@ -1223,7 +1230,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields - email", () => {
+        test("400 - returns bad request for invalid field - email", () => {
           const postData = {
             first_name: "Alicetest",
             surname: "Johnsontest",
@@ -1246,7 +1253,7 @@ describe("app", () => {
   describe("/api/properties/:id/bookings", () => {
     describe("HAPPY PATH", () => {
       describe("POST", () => {
-        test("201 - response with recently created booking for property", () => {
+        test("201 - response with recently created booking object for property", () => {
           const postData = {
             guest_id: 2,
             check_in_date: "2025-12-01",
@@ -1290,7 +1297,7 @@ describe("app", () => {
     });
     describe("SAD PATH", () => {
       describe("POST", () => {
-        test("400 - returns bad request for missing fields - guest_id", () => {
+        test("400 - returns bad request for missing field - guest_id", () => {
           const postData = {
             check_in_date: "2025-12-01",
             check_out_date: "2025-12-05",
@@ -1303,7 +1310,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for missing fields - check_in_date", () => {
+        test("400 - returns bad request for missing field - check_in_date", () => {
           const postData = {
             guest_id: 1,
             check_out_date: "2025-12-05",
@@ -1316,7 +1323,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for missing fields - check_out_date", () => {
+        test("400 - returns bad request for missing field - check_out_date", () => {
           const postData = {
             guest_id: 1,
             check_in_date: "2025-12-01",
@@ -1329,7 +1336,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields - guest_id", () => {
+        test("400 - returns bad request for invalid field - guest_id", () => {
           const postData = {
             guestid: 2,
             check_in_date: "2025-12-01",
@@ -1343,7 +1350,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields - check_in_date", () => {
+        test("400 - returns bad request for invalid field - check_in_date", () => {
           const postData = {
             guest_id: 2,
             checkindate: "2025-12-01",
@@ -1357,7 +1364,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid fields - check_out_date", () => {
+        test("400 - returns bad request for invalid field - check_out_date", () => {
           const postData = {
             guest_id: 2,
             check_in_date: "2025-12-01",
@@ -1371,7 +1378,7 @@ describe("app", () => {
               expect(msg).toBe("Bad request.");
             });
         });
-        test("400 - returns bad request for invalid type fields - guest_id", () => {
+        test("400 - returns bad request for invalid type field - guest_id", () => {
           const postData = {
             guest_id: "invalid_guestid",
             check_in_date: "2025-12-01",
@@ -1385,7 +1392,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("400 - returns bad request for invalid type fields - check_in_date", () => {
+        test("400 - returns bad request for invalid type field - check_in_date", () => {
           const postData = {
             guest_id: 1,
             check_in_date: "invalid_check_in_date",
@@ -1399,7 +1406,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid date format.");
             });
         });
-        test("400 - returns bad request for invalid type fields - check_out_date", () => {
+        test("400 - returns bad request for invalid type field - check_out_date", () => {
           const postData = {
             guest_id: 1,
             check_in_date: "2025-12-0",
@@ -1413,7 +1420,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid date format.");
             });
         });
-        test("400 - returns bad request for invalid id", () => {
+        test("400 - returns bad request for invalid field - property_id", () => {
           const postData = {
             guest_id: 2,
             check_in_date: "2025-12-01",
@@ -1427,7 +1434,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found  for invalid foreign key reference fields - guest_id", () => {
+        test("404 - returns not found  for invalid foreign key reference field - guest_id", () => {
           const postData = {
             guest_id: 99999,
             check_in_date: "2025-12-01",
@@ -1441,7 +1448,7 @@ describe("app", () => {
               expect(msg).toBe("foreign key reference not found.");
             });
         });
-        test("404 - returns not found  for invalid foreign key reference fields - property_id", () => {
+        test("404 - returns not found  for invalid foreign key reference field - property_id", () => {
           const postData = {
             guest_id: 2,
             check_in_date: "2025-12-01",
@@ -1457,7 +1464,7 @@ describe("app", () => {
         });
       });
       describe("GET", () => {
-        test("400 - returns bad request for invalid id", () => {
+        test("400 - returns bad request for invalid field - property_id", () => {
           return request(app)
             .get("/api/properties/invalid_id/bookings")
             .expect(400)
@@ -1465,7 +1472,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found for non-existent property_id", () => {
+        test("404 - returns not found for non-existent - property_id", () => {
           return request(app)
             .get("/api/properties/99999/bookings")
             .expect(404)
@@ -1479,7 +1486,7 @@ describe("app", () => {
   describe("/api/bookings/:id", () => {
     describe("HAPPY PATH", () => {
       describe("PATCH", () => {
-        test("200 - response with recently updated booking", () => {
+        test("200 - response with recently updated booking object", () => {
           const updateData = {
             check_in_date: "2024-12-26T10:00:00.000Z",
             check_out_date: "2024-12-28T10:00:00.000Z",
@@ -1514,7 +1521,7 @@ describe("app", () => {
     });
     describe("SAD PATH", () => {
       describe("PATCH", () => {
-        test("400 - returns bad request for invalid type fields - check_in_date", () => {
+        test("400 - returns bad request for invalid type field - check_in_date", () => {
           const updateData = {
             check_in_date: "invalid_check_in_date",
             check_out_date: "2025-12-05",
@@ -1527,7 +1534,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid date format.");
             });
         });
-        test("400 - returns bad request for invalid type fields - check_out_date", () => {
+        test("400 - returns bad request for invalid type field - check_out_date", () => {
           const updateData = {
             check_in_date: "2025-12-0",
             check_out_date: "invalid_check_out_date",
@@ -1540,7 +1547,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid date format.");
             });
         });
-        test("400 - returns bad request for invalid id", () => {
+        test("400 - returns bad request for invalid field - booking_id", () => {
           const updateData = {
             check_in_date: "2025-12-01",
             check_out_date: "2025-12-05",
@@ -1553,7 +1560,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found when the booking does not exist", () => {
+        test("404 - returns not found for non-existent - booking_id", () => {
           return request(app)
             .patch("/api/bookings/99999")
             .expect(404)
@@ -1563,7 +1570,7 @@ describe("app", () => {
         });
       });
       describe("DELETE", () => {
-        test("400 - returns bad request for invalid id", () => {
+        test("400 - returns bad request for invalid feild - booking_id", () => {
           return request(app)
             .delete("/api/bookings/invalid_id")
             .expect(400)
@@ -1571,7 +1578,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found for non-existent review id", () => {
+        test("404 - returns not found for non-existent - booking_id", () => {
           return request(app)
             .delete("/api/bookings/99999")
             .expect(404)
@@ -1611,7 +1618,7 @@ describe("app", () => {
     });
     describe("SAD PATH", () => {
       describe("GET", () => {
-        test("400 - returns bad request for invalid id", () => {
+        test("400 - returns bad request for invalid field - user_id", () => {
           return request(app)
             .get("/api/users/invalid_id/bookings")
             .expect(400)
@@ -1619,7 +1626,7 @@ describe("app", () => {
               expect(msg).toBe("Invalid input type.");
             });
         });
-        test("404 - returns not found for non-existent user_id", () => {
+        test("404 - returns not found for non-existent - user_id", () => {
           return request(app)
             .get("/api/users/99999/bookings")
             .expect(404)
