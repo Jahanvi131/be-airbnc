@@ -1,5 +1,4 @@
 const db = require("../../db/connection");
-const { resource } = require("../../server/app");
 const { selectReviews } = require("../reviews/select-query");
 
 exports.fetchReviews = async (property_id) => {
