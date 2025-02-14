@@ -1,5 +1,5 @@
 const db = require("../../db/connection");
-
+const { selectFavourites } = require("../favourites/select-query");
 exports.insertFavourite = async (guest_id, property_id) => {
   const queryStr =
     "INSERT INTO favourites (guest_id, property_id) VALUES($1, $2) RETURNING *";
@@ -22,4 +22,15 @@ exports.deleteFavourite = async (favourite_id) => {
       msg: "property's favourite doesn't exist, no record deleted.",
     });
   }
+};
+
+exports.fetchUserFavouriteProperties = async (user_id) => {
+  const {
+    rows: [{ result }],
+  } = await db.query(selectFavourites, [user_id]);
+
+  if (result.hasOwnProperty(["error-msg"])) {
+    return Promise.reject({ status: 404, msg: result["error-msg"] });
+  }
+  return result;
 };

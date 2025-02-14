@@ -3,12 +3,13 @@ const favouritesRouter = express.Router({ mergeParams: true });
 const {
   postFavourite,
   deleteFavourite,
+  getUserFavouriteProperties,
 } = require("../controllers/favouritecontroller");
 const {
   handleMethodNotAllowed,
 } = require("../server/error/set-error-response");
 
-favouritesRouter.route("/").post(postFavourite);
+favouritesRouter.route("/").get(getUserFavouriteProperties).post(postFavourite);
 
 favouritesRouter
   .route("/:id")

@@ -1,6 +1,7 @@
 const {
   insertFavourite,
   deleteFavourite,
+  fetchUserFavouriteProperties,
 } = require("../models/favourites/favouritemodel");
 
 exports.postFavourite = (req, res, next) => {
@@ -19,6 +20,15 @@ exports.deleteFavourite = (req, res, next) => {
   deleteFavourite(favourite_id)
     .then(() => {
       res.sendStatus(204);
+    })
+    .catch(next);
+};
+
+exports.getUserFavouriteProperties = (req, res, next) => {
+  const { id: user_id } = req.params;
+  fetchUserFavouriteProperties(user_id)
+    .then((favourites) => {
+      res.status(200).send(favourites);
     })
     .catch(next);
 };

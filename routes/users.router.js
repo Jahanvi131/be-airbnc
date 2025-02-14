@@ -8,6 +8,7 @@ const { getUserBookings } = require("../controllers/bookingcontroller");
 const {
   handleMethodNotAllowed,
 } = require("../server/error/set-error-response");
+const favouritesRouter = require("../routes/favourites.router");
 
 const usersRouter = express.Router();
 
@@ -20,5 +21,7 @@ usersRouter
   .all(handleMethodNotAllowed);
 
 usersRouter.route("/:id/bookings").get(getUserBookings);
+
+usersRouter.use("/:id/favourites", favouritesRouter);
 
 module.exports = usersRouter;

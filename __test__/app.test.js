@@ -23,6 +23,26 @@ describe("app", () => {
         });
     });
   });
+  describe("/api/property_types", () => {
+    describe("HAPPY PATH", () => {
+      describe("GET", () => {
+        test("200 - response with all property_types", () => {
+          return request(app)
+            .get("/api/property_types")
+            .expect(200)
+            .then(({ body: { property_types } }) => {
+              expect(Array.isArray(property_types)).toBe(true);
+              expect(property_types.length).toBeGreaterThan(0);
+              property_types.forEach((p) => {
+                expect(typeof p).toBe("object");
+                expect(p).toHaveProperty("property_type");
+                expect(p).toHaveProperty("description");
+              });
+            });
+        });
+      });
+    });
+  });
   describe("/api/properties", () => {
     describe("HAPPY PATH", () => {
       describe("GET", () => {
@@ -113,9 +133,9 @@ describe("app", () => {
               });
             });
         });
-        test("200 - response with all properties set default limit 5", () => {
+        test("200 - response with all properties set default limit - 5 and page - 1", () => {
           return request(app)
-            .get("/api/properties")
+            .get("/api/properties?limit=5&&page=1")
             .expect(200)
             .then(({ body: { properties } }) => {
               expect(properties).toHaveLength(5);
@@ -123,10 +143,10 @@ describe("app", () => {
         });
         test("200 - response with all properties pass optional page - 2", () => {
           return request(app)
-            .get("/api/properties?page=2")
+            .get("/api/properties?limit=5&&page=2")
             .expect(200)
             .then(({ body: { properties } }) => {
-              expect(properties).toHaveLength(properties.length);
+              expect(properties).toHaveLength(5);
             });
         });
       });
@@ -1632,6 +1652,53 @@ describe("app", () => {
             .expect(404)
             .then(({ body: { msg } }) => {
               expect(msg).toBe("No bookings found.");
+            });
+        });
+      });
+    });
+  });
+  describe("/api/users/:id/favourites", () => {
+    describe("HAPPY PATH", () => {
+      describe("GET", () => {
+        test("200 - response with all the favourites of specific user", () => {
+          return request(app)
+            .get("/api/users/2/favourites")
+            .expect(200)
+            .then(({ body: { favourites } }) => {
+              expect(Array.isArray(favourites)).toBe(true);
+              expect(favourites.length).toBeGreaterThan(0);
+              favourites.forEach((f) => {
+                expect(typeof f).toBe("object");
+                expect(f).toHaveProperty("property_id");
+                expect(f).toHaveProperty("property_name");
+                expect(f).toHaveProperty("location");
+                expect(f).toHaveProperty("price_per_night");
+                expect(f).toHaveProperty("host");
+                expect(f).toHaveProperty("image");
+              });
+            });
+        });
+        test("200 - empty response for no favourites of specific user", () => {
+          return request(app).get("/api/users/5/favourites").expect(200);
+        });
+      });
+    });
+    describe("SAD PATH", () => {
+      describe("GET", () => {
+        test("400 - returns bad request for invalid field - user_id", () => {
+          return request(app)
+            .get("/api/users/invalid_id/favourites")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("Invalid input type.");
+            });
+        });
+        test("404 - returns not found for non-existent - user_id", () => {
+          return request(app)
+            .get("/api/users/99999/favourites")
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).toBe("No record found.");
             });
         });
       });
