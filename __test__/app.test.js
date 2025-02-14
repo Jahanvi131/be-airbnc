@@ -133,20 +133,20 @@ describe("app", () => {
               });
             });
         });
-        test("200 - response with all properties set default limit - 5 and page - 1", () => {
+        test("200 - response with all properties set default limit - 10 and page - 1", () => {
           return request(app)
-            .get("/api/properties?limit=5&&page=1")
+            .get("/api/properties?limit=10&&page=1")
             .expect(200)
             .then(({ body: { properties } }) => {
-              expect(properties).toHaveLength(5);
+              expect(properties).toHaveLength(10);
             });
         });
         test("200 - response with all properties pass optional page - 2", () => {
           return request(app)
-            .get("/api/properties?limit=5&&page=2")
+            .get("/api/properties?limit=10&&page=2")
             .expect(200)
             .then(({ body: { properties } }) => {
-              expect(properties).toHaveLength(5);
+              expect(properties).toHaveLength(1);
             });
         });
       });
