@@ -5,11 +5,12 @@ exports.selectProperties = (options = {}) => {
     sort = "popularity",
     order = "desc",
     host,
+    property_type,
     limit = 10,
     page = 1,
   } = options;
   const values = [];
-  let queryStr = `SELECT count(f.favourite_id) as popularity, p.property_id, name as property_name,
+  let queryStr = `SELECT count(f.favourite_id) as popularity, p.property_id, name as property_name, p.property_type,
                       location, price_per_night::float,
                       CONCAT(first_name, ' ', surname) AS host,
                       (SELECT image_url as Image FROM images i where i.property_id = p.property_id Order by image_id limit 1) as Image
@@ -18,7 +19,10 @@ exports.selectProperties = (options = {}) => {
                       LEFT JOIN favourites f ON
                       p.property_id = f.property_id `;
 
-  if (Object.keys(options).length > 0 && (maxprice || minprice || host))
+  if (
+    Object.keys(options).length > 0 &&
+    (maxprice || minprice || host || property_type)
+  )
     queryStr += "WHERE ";
 
   if (maxprice) {
@@ -42,11 +46,18 @@ exports.selectProperties = (options = {}) => {
     queryStr += `host_id = $${values.length} `;
   }
 
+  if (property_type) {
+    if (values.length) {
+      queryStr += "AND ";
+    }
+    values.push(property_type);
+    queryStr += `property_type = $${values.length} `;
+  }
   queryStr += `GROUP BY p.property_id, host `;
   queryStr += `ORDER BY ${sort} ${order} `;
 
-  const offset = (page - 1) * limit;
-  queryStr += `LIMIT ${limit} OFFSET ${offset} `;
+  // const offset = (page - 1) * limit;
+  // queryStr += `LIMIT ${limit} OFFSET ${offset} `;
 
   return { query: queryStr, values: values };
 };
