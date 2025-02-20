@@ -5,7 +5,7 @@ exports.selectProperties = (options = {}) => {
     sort = "popularity",
     order = "desc",
     host,
-    limit = 5,
+    limit = 10,
     page = 1,
   } = options;
   const values = [];
