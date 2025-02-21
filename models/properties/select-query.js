@@ -27,7 +27,7 @@ exports.selectProperties = (options = {}) => {
 
   if (maxprice) {
     values.push(maxprice);
-    queryStr += `price_per_night >= $${values.length} `;
+    queryStr += `price_per_night <= $${values.length} `;
   }
 
   if (minprice) {
@@ -35,7 +35,7 @@ exports.selectProperties = (options = {}) => {
       queryStr += "AND ";
     }
     values.push(minprice);
-    queryStr += `price_per_night < $${values.length} `;
+    queryStr += `price_per_night > $${values.length} `;
   }
 
   if (host) {
