@@ -10,7 +10,8 @@ exports.selectReviews = ` WITH CheckProperty AS (
                             r.rating,
                             r.created_at,
                             CONCAT(u.first_name, ' ', u.surname) AS guest,
-                            u.avatar AS guest_avatar
+                            u.avatar AS guest_avatar,
+                            u.user_id AS guest_id
                           FROM 
                             reviews r
                           JOIN 

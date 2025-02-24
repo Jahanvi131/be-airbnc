@@ -814,8 +814,7 @@ describe("app", () => {
                 expect(r).toHaveProperty("created_at");
                 expect(r).toHaveProperty("guest");
                 expect(r).toHaveProperty("guest_avatar");
-
-                expect(r).not.toHaveProperty("guest_id");
+                expect(r).toHaveProperty("guest_id");
               });
               expect(body).toHaveProperty("average_rating");
             });
