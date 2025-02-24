@@ -82,7 +82,7 @@ exports.selectPropertyById = (property_id, user_id) => {
 
   queryStr += `FROM properties p JOIN
                       users u ON p.host_id = u.user_id
-                      JOIN favourites f ON
+                      LEFT favourites f ON
                       p.property_id = f.property_id
                       WHERE p.property_id = $1
                       GROUP BY p.property_id, host, host_avatar`;
