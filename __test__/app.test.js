@@ -1688,6 +1688,7 @@ describe("app", () => {
               expect(favourites.length).toBeGreaterThan(0);
               favourites.forEach((f) => {
                 expect(typeof f).toBe("object");
+                expect(f).toHaveProperty("favourite_id");
                 expect(f).toHaveProperty("property_id");
                 expect(f).toHaveProperty("property_name");
                 expect(f).toHaveProperty("location");

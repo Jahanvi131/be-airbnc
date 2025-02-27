@@ -4,7 +4,7 @@ exports.selectFavourites = `WITH CheckUser AS (
                                     WHERE user_id = $1
                         ),
                         favourite_Data AS (
-                           SELECT p.property_id, name as property_name,
+                           SELECT f.favourite_id,p.property_id, name as property_name,
                                 location, price_per_night::float,
                                 CONCAT(first_name, ' ', surname) AS host,
                                 (SELECT image_url as Image FROM images i where i.property_id = p.property_id Order by image_id limit 1) as Image
