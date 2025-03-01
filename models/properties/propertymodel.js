@@ -4,9 +4,9 @@ const {
   selectPropertyById,
 } = require("../properties/select-query");
 
-exports.fetchProperties = async (options = {}) => {
+exports.fetchProperties = async (options = {}, userId) => {
   const { sort = "popularity", order = "desc", page = 1 } = options;
-  const { query, values } = selectProperties(options);
+  const { query, values } = selectProperties(options, userId);
 
   const validSortBy = ["price_per_night", "name", "popularity"];
   const validSortByOrder = ["asc", "desc"];

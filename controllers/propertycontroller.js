@@ -8,8 +8,9 @@ const {
 
 exports.getProperties = (req, res, next) => {
   const query = req.query;
+  const userId = req.headers["x-user-id"];
 
-  fetchProperties(query)
+  fetchProperties(query, userId)
     .then((properties) => {
       {
         res.send({ properties });

@@ -1,4 +1,4 @@
-exports.selectProperties = (options = {}) => {
+exports.selectProperties = (options = {}, userId) => {
   const {
     maxprice,
     minprice,
@@ -13,12 +13,19 @@ exports.selectProperties = (options = {}) => {
   let queryStr = `SELECT count(f.favourite_id) as popularity, p.property_id, name as property_name, p.property_type,
                       location, price_per_night::float,
                       CONCAT(first_name, ' ', surname) AS host,
-                      (SELECT image_url as Image FROM images i where i.property_id = p.property_id Order by image_id limit 1) as Image
-                      FROM properties p JOIN users u ON
+                      (SELECT image_url as Image FROM images i where i.property_id = p.property_id Order by image_id limit 1) as Image `;
+  if (userId) {
+    values.push(userId);
+    queryStr += `,(CASE WHEN EXISTS ( SELECT 1  FROM favourites WHERE guest_id = $1 AND property_id = p.property_id)
+                     THEN true
+                     ELSE false
+                     END) AS favourited `;
+  }
+
+  queryStr += `FROM properties p JOIN users u ON
                       p.host_id = u.user_id
                       LEFT JOIN favourites f ON
                       p.property_id = f.property_id `;
-
   if (
     Object.keys(options).length > 0 &&
     (maxprice || minprice || host || property_type)
@@ -39,7 +46,7 @@ exports.selectProperties = (options = {}) => {
   }
 
   if (host) {
-    if (values.length) {
+    if (values.length > 1) {
       queryStr += "AND ";
     }
     values.push(host);
@@ -47,7 +54,7 @@ exports.selectProperties = (options = {}) => {
   }
 
   if (property_type) {
-    if (values.length) {
+    if (values.length > 1) {
       queryStr += "AND ";
     }
     values.push(property_type);

@@ -49,6 +49,7 @@ describe("app", () => {
         test("200 - response with all properties", () => {
           return request(app)
             .get("/api/properties")
+            .set("X-User-ID", 2)
             .expect(200)
             .then(({ body: { properties } }) => {
               expect(Array.isArray(properties)).toBe(true);
@@ -94,6 +95,7 @@ describe("app", () => {
         test("200 - response with all properties where price per night between maxprice and minprice", () => {
           return request(app)
             .get("/api/properties?minprice=10&&maxprice=90")
+            .set("X-User-ID", 2)
             .expect(200)
             .then(({ body: { properties } }) => {
               properties.forEach((p) => {
@@ -106,6 +108,7 @@ describe("app", () => {
         test("200 - response with all properties default sortby valid field(popularity) and order(descending)", () => {
           return request(app)
             .get("/api/properties")
+            .set("X-User-ID", 2)
             .expect(200)
             .then(({ body: { properties } }) => {
               expect(properties.length).toBeGreaterThan(0);
@@ -117,6 +120,7 @@ describe("app", () => {
         test("200 - response with all properties sortby valid field(price_per_night) and order(ascending)", () => {
           return request(app)
             .get("/api/properties?sort=price_per_night&&order=asc")
+            .set("X-User-ID", 2)
             .expect(200)
             .then(({ body: { properties } }) => {
               expect(properties.length).toBeGreaterThan(0);
@@ -126,6 +130,7 @@ describe("app", () => {
         test("200 - response with all properties filter by host", () => {
           return request(app)
             .get("/api/properties?host=1")
+            .set("X-User-ID", 2)
             .expect(200)
             .then(({ body: { properties } }) => {
               expect(properties.length).toBeGreaterThan(0);
@@ -137,6 +142,7 @@ describe("app", () => {
         test("200 - response with all properties filter by property_type", () => {
           return request(app)
             .get("/api/properties?property_type=House")
+            .set("X-User-ID", 2)
             .expect(200)
             .then(({ body: { properties } }) => {
               expect(properties.length).toBeGreaterThan(0);
