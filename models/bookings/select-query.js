@@ -13,7 +13,7 @@ exports.selectUserBookings = `
                     JOIN users u
                     ON b.guest_id = u.user_id 
                     WHERE guest_id = $1
-                    ORDER BY booking_id desc)
+                    ORDER BY check_out_date desc)
                     SELECT 
                           CASE 
                             WHEN EXISTS (SELECT * FROM CheckUser) THEN 
