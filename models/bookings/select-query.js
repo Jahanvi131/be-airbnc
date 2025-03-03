@@ -11,7 +11,7 @@ exports.selectUserBookings = `
                     FROM bookings b JOIN properties p
                     ON b.property_id = p.property_id
                     JOIN users u
-                    ON b.guest_id = u.user_id 
+                    ON p.host_id = u.user_id 
                     WHERE guest_id = $1
                     ORDER BY check_out_date desc)
                     SELECT 
