@@ -151,6 +151,18 @@ describe("app", () => {
               });
             });
         });
+        test("200 - response with all properties filter by location", () => {
+          return request(app)
+            .get("/api/properties?location=london")
+            .set("X-User-ID", 2)
+            .expect(200)
+            .then(({ body: { properties } }) => {
+              expect(properties.length).toBeGreaterThan(0);
+              properties.forEach((p) => {
+                expect(p).toHaveProperty("location", "London, UK");
+              });
+            });
+        });
         test.skip("200 - response with all properties set default limit - 10 and page - 1", () => {
           return request(app)
             .get("/api/properties?limit=10&&page=1")

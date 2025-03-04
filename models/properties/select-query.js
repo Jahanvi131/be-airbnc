@@ -6,6 +6,7 @@ exports.selectProperties = (options = {}, userId) => {
     order = "desc",
     host,
     property_type,
+    location,
     limit = 10,
     page = 1,
   } = options;
@@ -28,7 +29,7 @@ exports.selectProperties = (options = {}, userId) => {
                       p.property_id = f.property_id `;
   if (
     Object.keys(options).length > 0 &&
-    (maxprice || minprice || host || property_type)
+    (maxprice || minprice || host || property_type || location)
   )
     queryStr += "WHERE ";
 
@@ -60,6 +61,15 @@ exports.selectProperties = (options = {}, userId) => {
     values.push(property_type);
     queryStr += `property_type = $${values.length} `;
   }
+
+  if (location) {
+    if (values.length > 1) {
+      queryStr += "AND ";
+    }
+    values.push(location + "%"); // for pattern matching
+    queryStr += `location ILIKE $${values.length} AND LENGTH(location) >= 5 `;
+  }
+
   queryStr += `GROUP BY p.property_id, host `;
   queryStr += `ORDER BY ${sort} ${order} `;
 
