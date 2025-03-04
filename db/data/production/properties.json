@@ -158,5 +158,13 @@
     "price_per_night": 350.0,
     "description": "A stunning villa overlooking the lake, perfect for large groups or special occasions.",
     "host_name": "Lucas Walker"
+  },
+  {
+    "name": "Lakeside Luxury Apartment",
+    "property_type": "Apartment",
+    "location": "Lake District, UK",
+    "price_per_night": 300.0,
+    "description": "A stunning apartment overlooking the lake, perfect for large groups or special occasions.",
+    "host_name": "Lucas Walker"
   }
 ]
