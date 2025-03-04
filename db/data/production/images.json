@@ -95,6 +95,11 @@
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
   {
+    "property_name": "Modern Apartment in City Center",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
+  },
+  {
     "property_name": "Cosy Family House",
     "image_url": "https://images.unsplash.com/photo-1613545325268-9265e1609167?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Modern minimalist living room with stone fireplace, large windows, and neutral furnishings."
@@ -113,6 +118,11 @@
     "property_name": "Cosy Family House",
     "image_url": "https://images.unsplash.com/photo-1471086569966-db3eebc25a59?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
+  },
+  {
+    "property_name": "Cosy Family House",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
   },
   {
     "property_name": "Chic Studio Near the Beach",
@@ -135,6 +145,11 @@
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
   {
+    "property_name": "Chic Studio Near the Beach",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
+  },
+  {
     "property_name": "Elegant City Apartment",
     "image_url": "https://images.unsplash.com/photo-1720877851762-1fd589e96311?q=80&w=3200&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Cosy living room with wooden interior, blue sofa, decorative pillows and various potted plants."
@@ -155,6 +170,11 @@
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
   {
+    "property_name": "Elegant City Apartment",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
+  },
+  {
     "property_name": "Charming Studio Retreat",
     "image_url": "https://images.unsplash.com/photo-1542853647-47ad77242390?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Cosy living room with a light grey sofa, yellow accent pillows and eclectic artwork."
@@ -168,6 +188,11 @@
     "property_name": "Charming Studio Retreat",
     "image_url": "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Freestanding oval bathtub surrounded by pebbles and a tropical plant."
+  },
+  {
+    "property_name": "Charming Studio Retreat",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
   },
   {
     "property_name": "Luxury Penthouse with View",
@@ -188,6 +213,11 @@
     "property_name": "Luxury Penthouse with View",
     "image_url": "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Freestanding oval bathtub surrounded by pebbles and a tropical plant."
+  },
+  {
+    "property_name": "Luxury Penthouse with View",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
   },
   {
     "property_name": "Spacious Countryside House",
@@ -210,6 +240,11 @@
     "alt_tag": "Freestanding oval bathtub surrounded by pebbles and a tropical plant."
   },
   {
+    "property_name": "Spacious Countryside House",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
+  },
+  {
     "property_name": "Seaside Studio Getaway",
     "image_url": "https://images.unsplash.com/photo-1613545325268-9265e1609167?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Modern minimalist living room with stone fireplace, large windows, and neutral furnishings."
@@ -228,6 +263,11 @@
     "property_name": "Seaside Studio Getaway",
     "image_url": "https://images.unsplash.com/photo-1471086569966-db3eebc25a59?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
+  },
+  {
+    "property_name": "Seaside Studio Getaway",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
   },
   {
     "property_name": "Cosy Loft in the Heart of the City",
@@ -250,6 +290,11 @@
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
   {
+    "property_name": "Cosy Loft in the Heart of the City",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
+  },
+  {
     "property_name": "Quaint Cottage in the Hills",
     "image_url": "https://images.unsplash.com/photo-1720877851762-1fd589e96311?q=80&w=3200&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Cosy living room with wooden interior, blue sofa, decorative pillows and various potted plants."
@@ -270,6 +315,11 @@
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
   {
+    "property_name": "Quaint Cottage in the Hills",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
+  },
+  {
     "property_name": "Bright and Airy Studio",
     "image_url": "https://images.unsplash.com/photo-1542853647-47ad77242390?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Cosy living room with a light grey sofa, yellow accent pillows and eclectic artwork."
@@ -283,6 +333,11 @@
     "property_name": "Bright and Airy Studio",
     "image_url": "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Freestanding oval bathtub surrounded by pebbles and a tropical plant."
+  },
+  {
+    "property_name": "Bright and Airy Studio",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
   },
   {
     "property_name": "Coastal Retreat with Garden",
@@ -303,6 +358,11 @@
     "property_name": "Coastal Retreat with Garden",
     "image_url": "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Freestanding oval bathtub surrounded by pebbles and a tropical plant."
+  },
+  {
+    "property_name": "Coastal Retreat with Garden",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
   },
   {
     "property_name": "Urban Loft with Modern Amenities",
@@ -325,6 +385,11 @@
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
   {
+    "property_name": "Urban Loft with Modern Amenitie",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
+  },
+  {
     "property_name": "Forest Hideaway Cabin",
     "image_url": "https://images.unsplash.com/photo-1613545325268-9265e1609167?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Modern minimalist living room with stone fireplace, large windows, and neutral furnishings."
@@ -343,6 +408,11 @@
     "property_name": "Forest Hideaway Cabin",
     "image_url": "https://images.unsplash.com/photo-1471086569966-db3eebc25a59?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
+  },
+  {
+    "property_name": "Forest Hideaway Cabin",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
   },
   {
     "property_name": "Seafront Villa with Infinity Pool",
@@ -365,6 +435,11 @@
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
   {
+    "property_name": "Seafront Villa with Infinity Pool",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
+  },
+  {
     "property_name": "Mountain View Chalet",
     "image_url": "https://images.unsplash.com/photo-1720877851762-1fd589e96311?q=80&w=3200&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Cosy living room with wooden interior, blue sofa, decorative pillows and various potted plants."
@@ -385,6 +460,11 @@
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
   {
+    "property_name": "Mountain View Chalet",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
+  },
+  {
     "property_name": "Cosy Country Cottage",
     "image_url": "https://images.unsplash.com/photo-1542853647-47ad77242390?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Cosy living room with a light grey sofa, yellow accent pillows and eclectic artwork."
@@ -393,6 +473,11 @@
     "property_name": "Cosy Country Cottage",
     "image_url": "https://images.unsplash.com/photo-1471086569966-db3eebc25a59?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
+  },
+  {
+    "property_name": "Cosy Country Cottage",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
   },
   {
     "property_name": "Stylish Loft in Shoreditch",
@@ -410,6 +495,11 @@
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
   {
+    "property_name": "Stylish Loft in Shoreditch",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
+  },
+  {
     "property_name": "Historic Castle Stay",
     "image_url": "https://images.unsplash.com/photo-1502672023488-70e25813eb80?q=80&w=3000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Minimalist living room with wooden furniture, potted plants, a wall-mounted TV and bookshelves."
@@ -425,6 +515,11 @@
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
   {
+    "property_name": "Historic Castle Stay",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
+  },
+  {
     "property_name": "Lakeside Luxury Villa",
     "image_url": "https://images.unsplash.com/photo-1613545325268-9265e1609167?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Modern minimalist living room with stone fireplace, large windows, and neutral furnishings."
@@ -445,6 +540,11 @@
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
   {
+    "property_name": "Lakeside Luxury Villa",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
+  },
+  {
     "property_name": "Lakeside Luxury Apartment",
     "image_url": "https://images.unsplash.com/photo-1613545325268-9265e1609167?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Modern minimalist living room with stone fireplace, large windows, and neutral furnishings."
@@ -463,5 +563,10 @@
     "property_name": "Lakeside Luxury Apartment",
     "image_url": "https://images.unsplash.com/photo-1471086569966-db3eebc25a59?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
+  },
+  {
+    "property_name": "Lakeside Luxury Apartment",
+    "image_url": "https://www.loft.co.uk/cdn/shop/files/MicrosoftTeams-image_16.jpg?v=1718109719&width=480",
+    "alt_tag": "Dining area"
   }
 ]
