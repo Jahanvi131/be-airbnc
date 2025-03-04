@@ -1,5 +1,80 @@
 [
   {
+    "property_name": "Tropical Beach Bungalow",
+    "image_url": "https://images.unsplash.com/photo-1580041065738-e4b7ed1b41a5?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt_tag": "Wooden beach house with large windows, surrounded by palm trees and tropical vegetation."
+  },
+  {
+    "property_name": "Tropical Beach Bungalow",
+    "image_url": "https://images.unsplash.com/photo-1544124634-c9a4e1ee3fc0?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt_tag": "Minimalist bedroom with large sliding doors opening to a tropical beach view."
+  },
+  {
+    "property_name": "Tropical Beach Bungalow",
+    "image_url": "https://images.unsplash.com/photo-1682695794947-3c8ee57e7c44?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt_tag": "Outdoor shower area with wooden decking and lush tropical plants."
+  },
+  {
+    "property_name": "Tropical Beach Bungalow",
+    "image_url": "https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt_tag": "Open-air living area with comfortable seating and ocean view."
+  },
+  {
+    "property_name": "Tropical Beach Bungalow",
+    "image_url": "https://images.unsplash.com/photo-1578172217868-d5269e5da262?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt_tag": "Private pool surrounded by tropical greenery and beach-style decking."
+  },
+  {
+    "property_name": "Alpine Ski Chalet",
+    "image_url": "https://images.unsplash.com/photo-1610637955574-18bb16709d14?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt_tag": "Rustic wooden chalet with snow-covered mountains in the background."
+  },
+  {
+    "property_name": "Alpine Ski Chalet",
+    "image_url": "https://images.unsplash.com/photo-1519944159858-9ce69ada7d5e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt_tag": "Cozy living room with large fireplace, wooden beams, and panoramic mountain views."
+  },
+  {
+    "property_name": "Alpine Ski Chalet",
+    "image_url": "https://images.unsplash.com/photo-1549145159-01ab4c719e1c?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt_tag": "Warm bedroom with fur throws, wooden furniture, and ski equipment."
+  },
+  {
+    "property_name": "Alpine Ski Chalet",
+    "image_url": "https://images.unsplash.com/photo-1512552288940-3a300922a275?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt_tag": "Modern kitchen with large windows overlooking snowy landscape."
+  },
+  {
+    "property_name": "Alpine Ski Chalet",
+    "image_url": "https://images.unsplash.com/photo-1614354987747-a5538ef47c10?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt_tag": "Outdoor hot tub with mountain and forest view."
+  },
+  {
+    "property_name": "Desert Eco-Lodge",
+    "image_url": "https://images.unsplash.com/photo-1580945935231-957f87844485?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt_tag": "Sustainable desert cabin with solar panels and minimalist design."
+  },
+  {
+    "property_name": "Desert Eco-Lodge",
+    "image_url": "https://images.unsplash.com/photo-1596524430615-8f1786a1c4b9?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt_tag": "Interior of eco-lodge with earth-toned decor and large windows overlooking desert landscape."
+  },
+  {
+    "property_name": "Desert Eco-Lodge",
+    "image_url": "https://images.unsplash.com/photo-1548940740-851d56d3b007?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt_tag": "Outdoor terrace with minimalist seating and expansive desert views."
+  },
+  {
+    "property_name": "Desert Eco-Lodge",
+    "image_url": "https://images.unsplash.com/photo-1492138786289-d35ea5cd2group_p.jpg?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt_tag": "Sustainable bedroom with minimalist design and large windows."
+  },
+  {
+    "property_name": "Desert Eco-Lodge",
+    "image_url": "https://images.unsplash.com/photo-1613490493576-7d3e33cbe5e6?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt_tag": "Outdoor dining area with sustainable design elements and desert backdrop."
+  },
+  {
     "property_name": "Modern Apartment in City Center",
     "image_url": "https://images.unsplash.com/photo-1727706572437-4fcda0cbd66f?q=80&w=3200&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Attic bedroom with warm wooden paneling, an arched window, a plush bed with green and white bedding, and a small wooden desk."
@@ -18,11 +93,6 @@
     "property_name": "Modern Apartment in City Center",
     "image_url": "https://images.unsplash.com/photo-1471086569966-db3eebc25a59?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
-  },
-  {
-    "property_name": "Modern Apartment in City Center",
-    "image_url": "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "alt_tag": "Freestanding oval bathtub surrounded by pebbles and a tropical plant."
   },
   {
     "property_name": "Cosy Family House",
@@ -45,11 +115,6 @@
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
   {
-    "property_name": "Cosy Family House",
-    "image_url": "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "alt_tag": "Freestanding oval bathtub surrounded by pebbles and a tropical plant."
-  },
-  {
     "property_name": "Chic Studio Near the Beach",
     "image_url": "https://images.unsplash.com/photo-1650772263831-41aa1b2c80d0?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Vintage-style house with steep gabled roof, brick chimney, and surrounding greenery."
@@ -70,11 +135,6 @@
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
   {
-    "property_name": "Chic Studio Near the Beach",
-    "image_url": "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "alt_tag": "Freestanding oval bathtub surrounded by pebbles and a tropical plant."
-  },
-  {
     "property_name": "Elegant City Apartment",
     "image_url": "https://images.unsplash.com/photo-1720877851762-1fd589e96311?q=80&w=3200&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Cosy living room with wooden interior, blue sofa, decorative pillows and various potted plants."
@@ -93,11 +153,6 @@
     "property_name": "Elegant City Apartment",
     "image_url": "https://images.unsplash.com/photo-1471086569966-db3eebc25a59?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
-  },
-  {
-    "property_name": "Elegant City Apartment",
-    "image_url": "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "alt_tag": "Freestanding oval bathtub surrounded by pebbles and a tropical plant."
   },
   {
     "property_name": "Charming Studio Retreat",
@@ -146,11 +201,6 @@
   },
   {
     "property_name": "Spacious Countryside House",
-    "image_url": "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "alt_tag": "Freestanding oval bathtub surrounded by pebbles and a tropical plant."
-  },
-  {
-    "property_name": "Spacious Countryside House",
     "image_url": "https://images.unsplash.com/photo-1471086569966-db3eebc25a59?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
@@ -180,11 +230,6 @@
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
   {
-    "property_name": "Seaside Studio Getaway",
-    "image_url": "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "alt_tag": "Freestanding oval bathtub surrounded by pebbles and a tropical plant."
-  },
-  {
     "property_name": "Cosy Loft in the Heart of the City",
     "image_url": "https://images.unsplash.com/photo-1650772263831-41aa1b2c80d0?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Vintage-style house with steep gabled roof, brick chimney, and surrounding greenery."
@@ -205,11 +250,6 @@
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
   {
-    "property_name": "Cosy Loft in the Heart of the City",
-    "image_url": "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "alt_tag": "Freestanding oval bathtub surrounded by pebbles and a tropical plant."
-  },
-  {
     "property_name": "Quaint Cottage in the Hills",
     "image_url": "https://images.unsplash.com/photo-1720877851762-1fd589e96311?q=80&w=3200&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Cosy living room with wooden interior, blue sofa, decorative pillows and various potted plants."
@@ -228,11 +268,6 @@
     "property_name": "Quaint Cottage in the Hills",
     "image_url": "https://images.unsplash.com/photo-1471086569966-db3eebc25a59?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
-  },
-  {
-    "property_name": "Quaint Cottage in the Hills",
-    "image_url": "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "alt_tag": "Freestanding oval bathtub surrounded by pebbles and a tropical plant."
   },
   {
     "property_name": "Bright and Airy Studio",
@@ -290,11 +325,6 @@
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
   {
-    "property_name": "Urban Loft with Modern Amenities",
-    "image_url": "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "alt_tag": "Freestanding oval bathtub surrounded by pebbles and a tropical plant."
-  },
-  {
     "property_name": "Forest Hideaway Cabin",
     "image_url": "https://images.unsplash.com/photo-1613545325268-9265e1609167?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Modern minimalist living room with stone fireplace, large windows, and neutral furnishings."
@@ -313,11 +343,6 @@
     "property_name": "Forest Hideaway Cabin",
     "image_url": "https://images.unsplash.com/photo-1471086569966-db3eebc25a59?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
-  },
-  {
-    "property_name": "Forest Hideaway Cabin",
-    "image_url": "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "alt_tag": "Freestanding oval bathtub surrounded by pebbles and a tropical plant."
   },
   {
     "property_name": "Seafront Villa with Infinity Pool",
@@ -340,11 +365,6 @@
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
   },
   {
-    "property_name": "Seafront Villa with Infinity Pool",
-    "image_url": "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "alt_tag": "Freestanding oval bathtub surrounded by pebbles and a tropical plant."
-  },
-  {
     "property_name": "Mountain View Chalet",
     "image_url": "https://images.unsplash.com/photo-1720877851762-1fd589e96311?q=80&w=3200&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Cosy living room with wooden interior, blue sofa, decorative pillows and various potted plants."
@@ -363,11 +383,6 @@
     "property_name": "Mountain View Chalet",
     "image_url": "https://images.unsplash.com/photo-1471086569966-db3eebc25a59?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "alt_tag": "Plant cutting in a clear glass vase filled with water."
-  },
-  {
-    "property_name": "Mountain View Chalet",
-    "image_url": "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "alt_tag": "Freestanding oval bathtub surrounded by pebbles and a tropical plant."
   },
   {
     "property_name": "Cosy Country Cottage",
