@@ -7,7 +7,7 @@ exports.selectProperties = (options = {}, userId) => {
     host,
     property_type,
     location,
-    limit = 10,
+    limit = 8,
     page = 1,
   } = options;
   const values = [];
@@ -73,8 +73,8 @@ exports.selectProperties = (options = {}, userId) => {
   queryStr += `GROUP BY p.property_id, host `;
   queryStr += `ORDER BY ${sort} ${order} `;
 
-  // const offset = (page - 1) * limit;
-  // queryStr += `LIMIT ${limit} OFFSET ${offset} `;
+  const offset = (page - 1) * limit;
+  queryStr += `LIMIT ${limit} OFFSET ${offset} `;
 
   return { query: queryStr, values: values };
 };
